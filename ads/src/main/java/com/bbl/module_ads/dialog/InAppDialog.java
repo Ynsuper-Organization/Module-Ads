@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bbl.module_ads.billing.AppPurchase;
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 
 public class InAppDialog extends Dialog {
     private Context mContext;

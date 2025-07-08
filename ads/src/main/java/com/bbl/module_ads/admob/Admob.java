@@ -35,7 +35,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.applovin.mediation.AppLovinExtras;
 import com.applovin.mediation.ApplovinAdapter;
 import com.bbl.module_ads.ads.nativeAds.AdmobRecyclerAdapter;

@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.spinkit.sprite.Sprite;
 
 public class SpinKitView extends ProgressBar {

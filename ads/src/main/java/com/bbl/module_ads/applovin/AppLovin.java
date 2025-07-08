@@ -16,7 +16,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.billing.AppPurchase;
 import com.bbl.module_ads.dialog.PrepareLoadingAdsDialog;
 import com.bbl.module_ads.funtion.AdCallback;
@@ -989,13 +989,13 @@ public class AppLovin {
         adAdapter.getAdPlacer().setAdSize(-1, -1);
 
         MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(layoutCustomNative)
-                .setTitleTextViewId(com.ads.bbl.R.id.ad_headline)
-                .setBodyTextViewId(com.ads.bbl.R.id.ad_body)
-                .setAdvertiserTextViewId(com.ads.bbl.R.id.ad_advertiser)
-                .setIconImageViewId(com.ads.bbl.R.id.ad_app_icon)
-                .setMediaContentViewGroupId(com.ads.bbl.R.id.ad_media)
-                .setOptionsContentViewGroupId(com.ads.bbl.R.id.ad_options_view)
-                .setCallToActionButtonId(com.ads.bbl.R.id.ad_call_to_action)
+                .setTitleTextViewId(R.id.ad_headline)
+                .setBodyTextViewId(R.id.ad_body)
+                .setAdvertiserTextViewId(R.id.ad_advertiser)
+                .setIconImageViewId(R.id.ad_app_icon)
+                .setMediaContentViewGroupId(R.id.ad_media)
+                .setOptionsContentViewGroupId(R.id.ad_options_view)
+                .setCallToActionButtonId(R.id.ad_call_to_action)
                 .build();
 
         adAdapter.getAdPlacer().setNativeAdViewBinder(binder);
@@ -1013,13 +1013,13 @@ public class AppLovin {
         adAdapter.getAdPlacer().setAdSize(-1, -1);
 
         MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(layoutCustomNative)
-                .setTitleTextViewId(com.ads.bbl.R.id.ad_headline)
-                .setBodyTextViewId(com.ads.bbl.R.id.ad_body)
-                .setAdvertiserTextViewId(com.ads.bbl.R.id.ad_advertiser)
-                .setIconImageViewId(com.ads.bbl.R.id.ad_app_icon)
-                .setMediaContentViewGroupId(com.ads.bbl.R.id.ad_media)
-                .setOptionsContentViewGroupId(com.ads.bbl.R.id.ad_options_view)
-                .setCallToActionButtonId(com.ads.bbl.R.id.ad_call_to_action)
+                .setTitleTextViewId(R.id.ad_headline)
+                .setBodyTextViewId(R.id.ad_body)
+                .setAdvertiserTextViewId(R.id.ad_advertiser)
+                .setIconImageViewId(R.id.ad_app_icon)
+                .setMediaContentViewGroupId(R.id.ad_media)
+                .setOptionsContentViewGroupId(R.id.ad_options_view)
+                .setCallToActionButtonId(R.id.ad_call_to_action)
                 .build();
 
         adAdapter.getAdPlacer().setNativeAdViewBinder(binder);

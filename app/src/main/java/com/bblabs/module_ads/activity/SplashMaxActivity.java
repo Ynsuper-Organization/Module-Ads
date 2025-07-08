@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bbl.module_ads.ads.BBLAdCallback;
 import com.bbl.module_ads.ads.wrapper.ApAdError;
 import com.bbl.module_ads.applovin.AppOpenMax;
-import com.mia.module.R;
+import com.bblvn.example_ads.R;
+
 
 public class SplashMaxActivity extends AppCompatActivity {
 

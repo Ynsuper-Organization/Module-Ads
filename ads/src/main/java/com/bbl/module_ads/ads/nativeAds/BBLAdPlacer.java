@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.ads.wrapper.ApAdValue;
 import com.bbl.module_ads.ads.wrapper.ApNativeAd;

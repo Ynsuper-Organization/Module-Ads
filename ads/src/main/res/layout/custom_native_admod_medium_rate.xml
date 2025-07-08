@@ -64,16 +64,7 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-                <com.bbl.module_ads.util.CustomRatingBar
-                    android:id="@+id/ad_stars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="13dp"
-                    android:numStars="5"
-                    android:progressDrawable="@drawable/ratingbar_full"
-                    android:rating="3.5"
-                    android:stepSize="0.01"
-                    />
+
                 <TextView
                     android:id="@+id/ad_price"
                     android:layout_width="wrap_content"

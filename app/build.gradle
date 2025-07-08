@@ -4,18 +4,21 @@ plugins {
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
-
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.bbl.module_ads"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdk 35
         versionCode 1
         versionName "1.0.0"
         def formattedDate = new Date().format('MMM.dd.yyyy')
         archivesBaseName = "BBL_v${versionName}(${versionCode})_${formattedDate}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     buildTypes {
@@ -63,6 +66,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace "com.bblvn.example_ads"
 
 }
 
@@ -71,7 +75,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation project(path: ':ads')
-    implementation 'com.google.android.gms:play-services-ads:23.2.0'
+//    implementation 'com.github.Binary-Bridge-Labs:BBLModuleAds:2.0.8'
+    implementation 'com.google.android.gms:play-services-ads:24.4.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.core:core-ktx:1.8.0"

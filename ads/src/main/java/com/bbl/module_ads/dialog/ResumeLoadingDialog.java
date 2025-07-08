@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 
 public class ResumeLoadingDialog extends Dialog {
 

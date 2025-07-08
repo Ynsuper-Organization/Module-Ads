@@ -12,7 +12,7 @@ import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.admob.AppOpenManager;
 import com.bblabs.module_ads.activity.MainActivity;
 import com.bblabs.module_ads.activity.SplashActivity;
-import com.mia.module.BuildConfig;
+import com.bblvn.example_ads.BuildConfig;
 
 
 import java.util.ArrayList;

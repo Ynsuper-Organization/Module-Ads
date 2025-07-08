@@ -28,12 +28,12 @@ import com.bbl.module_ads.event.BBLAdjust;
 import com.bbl.module_ads.funtion.AdCallback;
 import com.bbl.module_ads.funtion.DialogExitListener;
 import com.bbl.module_ads.funtion.PurchaseListener;
+import com.bblvn.example_ads.BuildConfig;
+import com.bblvn.example_ads.R;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.AdapterStatus;
 import com.google.android.gms.ads.nativead.NativeAd;
-import com.mia.module.BuildConfig;
-import com.mia.module.R;
 
 import java.util.Map;
 
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private String idNative = "";
     private String idInter = "";
 
-    private int layoutNativeCustom;
     private BBLNativeAdView BBLNativeAdView;
 
     @Override
@@ -244,12 +243,10 @@ public class MainActivity extends AppCompatActivity {
             idBanner = BuildConfig.ad_banner;
             idNative = BuildConfig.ad_native;
             idInter = BuildConfig.ad_interstitial_splash;
-            layoutNativeCustom = com.ads.bbl.R.layout.custom_native_admod_medium_rate;
         } else {
             idBanner = getString(R.string.applovin_test_banner);
             idNative = getString(R.string.applovin_test_native);
             idInter = getString(R.string.applovin_test_inter);
-            layoutNativeCustom = com.ads.bbl.R.layout.custom_native_max_medium;
         }
     }
 

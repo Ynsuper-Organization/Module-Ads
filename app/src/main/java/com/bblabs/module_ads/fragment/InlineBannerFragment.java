@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bbl.module_ads.admob.Admob;
-import com.mia.module.R;
+import com.bblvn.example_ads.R;
 
 public class InlineBannerFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";

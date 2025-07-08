@@ -6,8 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.bblabs.module_ads.fragment.BlankFragment;
-import com.mia.module.R;
+import com.bblvn.example_ads.R;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class ContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
-        showFragment(new BlankFragment(),"BlankFragment");
+//        showFragment(new BlankFragment(),"BlankFragment");
     }
 
 

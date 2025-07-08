@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.funtion.PurchaseListener;
 import com.android.billingclient.api.ProductDetails;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

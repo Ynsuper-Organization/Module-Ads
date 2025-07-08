@@ -11,8 +11,8 @@ import com.bbl.module_ads.ads.BBLAd;
 import com.bbl.module_ads.ads.BBLAdCallback;
 import com.bbl.module_ads.config.BBLAdConfig;
 import com.bbl.module_ads.funtion.AdCallback;
-import com.mia.module.BuildConfig;
-import com.mia.module.R;
+import com.bblvn.example_ads.BuildConfig;
+import com.bblvn.example_ads.R;
 
 import java.util.ArrayList;
 import java.util.List;

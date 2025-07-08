@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.funtion.DialogExitListener;
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 

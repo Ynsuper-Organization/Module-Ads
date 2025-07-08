@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 
 
 import android.view.animation.Animation;

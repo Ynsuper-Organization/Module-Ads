@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.ads.BBLAd;
 import com.bbl.module_ads.ads.BBLAdCallback;

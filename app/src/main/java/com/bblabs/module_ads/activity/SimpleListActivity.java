@@ -14,7 +14,7 @@ import com.bbl.module_ads.ads.nativeAds.BBLAdPlacer;
 import com.bbl.module_ads.ads.nativeAds.BBLAdAdapter;
 import com.bbl.module_ads.ads.wrapper.ApAdValue;
 import com.bblabs.module_ads.adapter.ListSimpleAdapter;
-import com.mia.module.R;
+import com.bblvn.example_ads.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 public class SimpleListActivity extends AppCompatActivity {
     private static final String TAG = "SimpleListActivity";
     BBLAdAdapter adAdapter;
-    int layoutCustomNative = com.ads.bbl.R.layout.custom_native_admod_medium;
+    int layoutCustomNative = R.layout.custom_native_admob_small;
     String idNative = "";
     SwipeRefreshLayout swRefresh;
     ListSimpleAdapter originalAdapter;
@@ -77,10 +77,10 @@ public class SimpleListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (BBLAd.getInstance().getMediationProvider() == BBLAdConfig.PROVIDER_ADMOB) {
-            layoutCustomNative = com.ads.bbl.R.layout.custom_native_admod_medium;
+            layoutCustomNative = com.bbl.module_ads.R.layout.custom_native_admod_medium;
             idNative = getString(R.string.admod_native_id);
         } else {
-            layoutCustomNative = com.ads.bbl.R.layout.custom_native_max_small;
+            layoutCustomNative =R.layout.custom_native_admob_small;
             idNative = getString(R.string.applovin_test_native);
         }
 
@@ -93,7 +93,7 @@ public class SimpleListActivity extends AppCompatActivity {
     }
 
     private void setupAdAdapter() {
-        adAdapter = BBLAd.getInstance().getNativeRepeatAdapter(this, idNative, layoutCustomNative, com.ads.bbl.R.layout.layout_native_medium,
+        adAdapter = BBLAd.getInstance().getNativeRepeatAdapter(this, idNative, layoutCustomNative, com.bbl.module_ads.R.layout.layout_native_medium,
                 originalAdapter, listener, 5);
 
         recyclerView.setAdapter(adAdapter.getAdapter());

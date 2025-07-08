@@ -29,7 +29,7 @@ import com.adjust.sdk.OnEventTrackingFailedListener;
 import com.adjust.sdk.OnEventTrackingSucceededListener;
 import com.adjust.sdk.OnSessionTrackingFailedListener;
 import com.adjust.sdk.OnSessionTrackingSucceededListener;
-import com.ads.bbl.R;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.admob.AppOpenManager;
 import com.bbl.module_ads.ads.nativeAds.BBLAdAdapter;

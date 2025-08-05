@@ -12,7 +12,7 @@ import com.google.android.gms.ads.AdValue;
 
 public class BBLAdjust {
     public static boolean enableAdjust = false;
-    private static String eventNamePurchase = "";
+    private static String eventNamePurchase = "adjust_iap_purchase";
 
     public static void setEventNamePurchase(String eventNamePurchase) {
         BBLAdjust.eventNamePurchase = eventNamePurchase;

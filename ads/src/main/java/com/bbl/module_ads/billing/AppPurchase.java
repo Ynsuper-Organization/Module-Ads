@@ -930,6 +930,19 @@ public class AppPurchase {
         return pricingPhaseList.get(pricingPhaseList.size() - 1).getFormattedPrice();
     }
 
+    public String getPriceSub(String productId, int discount) {
+        ProductDetails skuDetails = skuDetailsSubsMap.get(productId);
+        if (skuDetails == null)
+            return "";
+
+
+        List<ProductDetails.SubscriptionOfferDetails> subsDetail = skuDetails.getSubscriptionOfferDetails();
+        List<ProductDetails.PricingPhase> pricingPhaseList = subsDetail.get(discount).getPricingPhases().getPricingPhaseList();
+        Log.e(TAG, "getPriceSub: " + pricingPhaseList.get(discount).getFormattedPrice());
+        return pricingPhaseList.get(discount).getFormattedPrice();
+    }
+
+
     /**
      * Get Price Pricing Phase List Subs
      *

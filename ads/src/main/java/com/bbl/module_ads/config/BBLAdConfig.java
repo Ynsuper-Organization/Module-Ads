@@ -16,6 +16,7 @@ public class BBLAdConfig {
     public static final String ENVIRONMENT_PRODUCTION = "production";
 
     public static final String DEFAULT_TOKEN_FACEBOOK_SDK = "client_token";
+    public static final String DEFAULT_TIKTOK_SDK = "tiktok";
 
     /**
      * config ad mediation using for app
@@ -43,6 +44,7 @@ public class BBLAdConfig {
     private Application application;
     private boolean enableAdResume = false;
     private String facebookClientToken = DEFAULT_TOKEN_FACEBOOK_SDK;
+    private String tiktokAppID = DEFAULT_TIKTOK_SDK;
 
     /**
      * intervalInterstitialAd: time between two interstitial ad impressions
@@ -161,5 +163,13 @@ public class BBLAdConfig {
 
     public String getFacebookClientToken() {
         return this.facebookClientToken;
+    }
+
+    public String getTiktokAppID() {
+        return tiktokAppID;
+    }
+
+    public void setTiktokAppID(String tiktokAppID) {
+        this.tiktokAppID = tiktokAppID;
     }
 }

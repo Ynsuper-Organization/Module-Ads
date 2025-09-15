@@ -12,6 +12,8 @@ import com.bbl.module_ads.util.SharePreferenceUtils;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.AdValue;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.tiktok.TikTokBusinessSdk;
+import com.tiktok.appevents.base.TTBaseEvent;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -22,6 +24,7 @@ public class BBLLogEventManager {
 
     public static void logPaidAdImpression(Context context, AdValue adValue, String adUnitId, String mediationAdapterClassName, AdType adType) {
         logEventWithAds(context, (float) adValue.getValueMicros(), adValue.getPrecisionType(), adUnitId, mediationAdapterClassName, adType,BBLAdConfig.PROVIDER_ADMOB);
+        logEventTikTok(context, (float) adValue.getValueMicros(), adValue.getPrecisionType(), adUnitId, mediationAdapterClassName, adType,BBLAdConfig.PROVIDER_ADMOB);
         BBLAdjust.pushTrackEventAdmob(adValue);
         BBLAppsflyer.getInstance().pushTrackEventAdmob(adValue, adUnitId, adType);
         // Log revenue Facebook 30/08
@@ -117,6 +120,28 @@ public class BBLLogEventManager {
 
         logTotalRevenueAdIn3DaysIfNeed(context);
         logTotalRevenueAdIn7DaysIfNeed(context);
+    }
+
+
+    private static void logEventTikTok(Context context, float revenue, int precision, String adUnitId, String network, AdType adType, int mediationProvider) {
+        Log.d(TAG, String.format(
+                "Paid TikTok of value %.0f microcents in currency USD of precision %s%n occurred for ad unit %s from ad network %s.mediation provider: %s%n",
+                revenue,
+                precision,
+                adUnitId,
+                network, mediationProvider));
+
+
+        TTBaseEvent testInfo = TTBaseEvent.newBuilder("BBL_TikTok", context.getPackageName())
+        .addProperty("currency", "USD") //The ISO 4217 currency code
+                .addProperty("value", revenue / 1000000.0) // Value of the order or items sold
+                .addProperty("content_id", adUnitId) //Unique ID of the product or content
+                .addProperty("content_type", adType.name().toLowerCase()) //The type of content in the event
+                .addProperty("price", revenue / 1000000.0) //The price of the item
+                .addProperty("quantity", precision) //The number of items
+                .build();
+        TikTokBusinessSdk.trackTTEvent(testInfo);
+
     }
 
     private static void logPaidAdImpressionValue(Context context, double value, int precision, String adunitid, String network, int mediationProvider) {

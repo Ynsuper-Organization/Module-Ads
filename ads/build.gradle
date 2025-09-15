@@ -54,7 +54,9 @@ dependencies {
     implementation 'com.google.ads.mediation:applovin:13.0.1.0'
     implementation 'com.google.ads.mediation:vungle:7.5.0.1'
     implementation 'com.google.ads.mediation:mintegral:16.9.81.0'
-    implementation  'com.google.ads.mediation:pangle:7.3.0.4.0'
+    implementation('com.google.ads.mediation:pangle:7.3.0.4.0') {
+        exclude group: 'com.pangle.global', module: 'tiktok-business-android-sdk-comp'
+    }
 
 
 
@@ -90,6 +92,7 @@ dependencies {
     implementation 'com.google.android.play:review-ktx:2.0.1'
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+    implementation 'com.github.tiktok:tiktok-business-android-sdk:1.4.0'
 }
 
 afterEvaluate {

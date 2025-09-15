@@ -59,6 +59,7 @@ public class MyApplication extends AdsMultiDexApplication {
         listTestDevice.add("4271C93CF09454C3100C720F43AADEF4");
         bblAdConfig.setListDeviceTest(listTestDevice);
         bblAdConfig.setIntervalInterstitialAd(15);
+        bblAdConfig.setTiktokAppID("");
 
         BBLAd.getInstance().init(this, bblAdConfig, false);
 

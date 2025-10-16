@@ -50,6 +50,7 @@ import com.bbl.module_ads.event.BBLAppsflyer;
 import com.bbl.module_ads.event.BBLLogEventManager;
 import com.bbl.module_ads.funtion.AdCallback;
 import com.bbl.module_ads.funtion.RewardCallback;
+import com.bbl.module_ads.util.AppConstant;
 import com.bbl.module_ads.util.AppUtil;
 import com.bbl.module_ads.util.SharePreferenceUtils;
 import com.applovin.mediation.MaxAd;
@@ -110,6 +111,47 @@ public class BBLAd {
         AppLovin.getInstance().setNumToShowAds(countClickToShowAds, currentClicked);
     }
 
+    /**
+     * Set custom layout for ResumeLoadingDialog globally
+     * @param resumeLoadingDialogLayout The layout resource ID for ResumeLoadingDialog
+     */
+    public void setResumeLoadingDialogLayout(int resumeLoadingDialogLayout) {
+        if (adConfig != null) {
+            adConfig.setResumeLoadingDialogLayout(resumeLoadingDialogLayout);
+        }
+    }
+
+    /**
+     * Set custom layout for PrepareLoadingAdsDialog globally
+     * @param prepareLoadingAdsDialogLayout The layout resource ID for PrepareLoadingAdsDialog
+     */
+    public void setPrepareLoadingAdsDialogLayout(int prepareLoadingAdsDialogLayout) {
+        if (adConfig != null) {
+            adConfig.setPrepareLoadingAdsDialogLayout(prepareLoadingAdsDialogLayout);
+        }
+    }
+
+    /**
+     * Get custom layout for ResumeLoadingDialog
+     * @return The layout resource ID for ResumeLoadingDialog, -1 if not set
+     */
+    public int getResumeLoadingDialogLayout() {
+        if (adConfig != null) {
+            return adConfig.getResumeLoadingDialogLayout();
+        }
+        return -1;
+    }
+
+    /**
+     * Get custom layout for PrepareLoadingAdsDialog
+     * @return The layout resource ID for PrepareLoadingAdsDialog, -1 if not set
+     */
+    public int getPrepareLoadingAdsDialogLayout() {
+        if (adConfig != null) {
+            return adConfig.getPrepareLoadingAdsDialogLayout();
+        }
+        return -1;
+    }
 
     /**
      * @param context
@@ -196,36 +238,28 @@ public class BBLAd {
 
         // Change the log level.
         config.setLogLevel(LogLevel.VERBOSE);
-        config.setPreinstallTrackingEnabled(true);
-        config.setOnAttributionChangedListener(new OnAttributionChangedListener() {
-            @Override
-            public void onAttributionChanged(AdjustAttribution attribution) {
-                Log.d(TAG_ADJUST, "Attribution callback called!");
-                Log.d(TAG_ADJUST, "Attribution: " + attribution.toString());
-            }
+        config.enablePreinstallTracking();
+        config.setOnAttributionChangedListener(attribution -> {
+            Log.d(TAG_ADJUST, "Attribution callback called!");
+            Log.d(TAG_ADJUST, "Attribution: " + attribution.toString());
         });
 
         // Set event success tracking delegate.
-        config.setOnEventTrackingSucceededListener(new OnEventTrackingSucceededListener() {
-            @Override
-            public void onFinishedEventTrackingSucceeded(AdjustEventSuccess eventSuccessResponseData) {
-                Log.d(TAG_ADJUST, "Event success callback called!");
-                Log.d(TAG_ADJUST, "Event success data: " + eventSuccessResponseData.toString());
-            }
+        config.setOnEventTrackingSucceededListener(eventSuccessResponseData -> {
+            Log.d(TAG_ADJUST, "Event success callback called!");
+            Log.d(TAG_ADJUST, "Event success data: " + eventSuccessResponseData.toString());
         });
         // Set event failure tracking delegate.
-        config.setOnEventTrackingFailedListener(new OnEventTrackingFailedListener() {
-            @Override
-            public void onFinishedEventTrackingFailed(AdjustEventFailure eventFailureResponseData) {
-                Log.d(TAG_ADJUST, "Event failure callback called!");
-                Log.d(TAG_ADJUST, "Event failure data: " + eventFailureResponseData.toString());
-            }
+        config.setOnEventTrackingFailedListener(adjustEventFailure -> {
+            Log.d(TAG_ADJUST, "Event failure callback called!");
+            Log.d(TAG_ADJUST, "Event failure data: " + adjustEventFailure.toString());
         });
 
         // Set session success tracking delegate.
         config.setOnSessionTrackingSucceededListener(new OnSessionTrackingSucceededListener() {
+
             @Override
-            public void onFinishedSessionTrackingSucceeded(AdjustSessionSuccess sessionSuccessResponseData) {
+            public void onSessionTrackingSucceeded(AdjustSessionSuccess sessionSuccessResponseData) {
                 Log.d(TAG_ADJUST, "Session success callback called!");
                 Log.d(TAG_ADJUST, "Session success data: " + sessionSuccessResponseData.toString());
             }
@@ -234,15 +268,15 @@ public class BBLAd {
         // Set session failure tracking delegate.
         config.setOnSessionTrackingFailedListener(new OnSessionTrackingFailedListener() {
             @Override
-            public void onFinishedSessionTrackingFailed(AdjustSessionFailure sessionFailureResponseData) {
+            public void onSessionTrackingFailed(AdjustSessionFailure sessionFailureResponseData) {
                 Log.d(TAG_ADJUST, "Session failure callback called!");
                 Log.d(TAG_ADJUST, "Session failure data: " + sessionFailureResponseData.toString());
             }
         });
 
 
-        config.setSendInBackground(true);
-        Adjust.onCreate(config);
+        config.enableSendingInBackground();
+        Adjust.initSdk(config);
         adConfig.getApplication().registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
 
@@ -352,6 +386,10 @@ public class BBLAd {
 
     public void loadCollapsibleBanner(final Activity activity, String id, String gravity, AdCallback adCallback) {
         Admob.getInstance().loadCollapsibleBanner(activity, id, gravity, adCallback);
+    }
+
+    public void loadCollapsibleBannerBottom(final Activity activity, String id, String gravity, AdCallback adCallback) {
+        Admob.getInstance().loadCollapsibleBanner(activity, id, AppConstant.CollapsibleGravity.BOTTOM, adCallback);
     }
 
     public void loadCollapsibleBannerSizeMedium(final Activity activity, String id, String gravity, AdSize sizeBanner, AdCallback adCallback) {

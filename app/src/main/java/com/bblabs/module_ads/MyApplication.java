@@ -1,33 +1,34 @@
 package com.bblabs.module_ads;
 
+import com.bbl.module_ads.admob.Admob;
+import com.bbl.module_ads.admob.AppOpenManager;
 import com.bbl.module_ads.ads.BBLAd;
-import com.bbl.module_ads.config.AdjustConfig;
-import com.bbl.module_ads.config.AppsflyerConfig;
-import com.bbl.module_ads.config.BBLAdConfig;
 import com.bbl.module_ads.application.AdsMultiDexApplication;
 import com.bbl.module_ads.applovin.AppLovin;
 import com.bbl.module_ads.applovin.AppOpenMax;
 import com.bbl.module_ads.billing.AppPurchase;
-import com.bbl.module_ads.admob.Admob;
-import com.bbl.module_ads.admob.AppOpenManager;
+import com.bbl.module_ads.config.AdjustConfig;
+import com.bbl.module_ads.config.AppsflyerConfig;
+import com.bbl.module_ads.config.BBLAdConfig;
 import com.bblabs.module_ads.activity.MainActivity;
 import com.bblabs.module_ads.activity.SplashActivity;
 import com.bblvn.example_ads.BuildConfig;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyApplication extends AdsMultiDexApplication {
+    private static MyApplication context;
     private final String APPSFLYER_TOKEN = "";
-    private final String ADJUST_TOKEN = "";
-    private final String EVENT_PURCHASE_ADJUST = "";
+    private final String ADJUST_TOKEN = "1z3pkubdmri8";
+    private final String EVENT_PURCHASE_ADJUST = "wnyjng";
     private final String EVENT_AD_IMPRESSION_ADJUST = "";
     protected StorageCommon storageCommon;
-    private static MyApplication context;
+
     public static MyApplication getApplication() {
         return context;
     }
+
     public StorageCommon getStorageCommon() {
         return storageCommon;
     }
@@ -49,13 +50,14 @@ public class MyApplication extends AdsMultiDexApplication {
         String environment = BuildConfig.env_dev ? BBLAdConfig.ENVIRONMENT_DEVELOP : BBLAdConfig.ENVIRONMENT_PRODUCTION;
         bblAdConfig = new BBLAdConfig(this, BBLAdConfig.PROVIDER_ADMOB, environment);
 
-        AdjustConfig adjustConfig = new AdjustConfig(true,ADJUST_TOKEN);
+        AdjustConfig adjustConfig = new AdjustConfig(true, ADJUST_TOKEN);
         adjustConfig.setEventAdImpression(EVENT_AD_IMPRESSION_ADJUST);
 
         adjustConfig.setEventNamePurchase(EVENT_PURCHASE_ADJUST);
         bblAdConfig.setAdjustConfig(adjustConfig);
+        bblAdConfig.setIdAdResume(BuildConfig.ad_appopen_resume);
 
-        AppsflyerConfig appsflyerConfig = new AppsflyerConfig(true,APPSFLYER_TOKEN);
+        AppsflyerConfig appsflyerConfig = new AppsflyerConfig(true, APPSFLYER_TOKEN);
         listTestDevice.add("4271C93CF09454C3100C720F43AADEF4");
         bblAdConfig.setListDeviceTest(listTestDevice);
         bblAdConfig.setIntervalInterstitialAd(15);

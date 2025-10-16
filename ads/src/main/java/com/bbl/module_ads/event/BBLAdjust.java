@@ -1,6 +1,7 @@
 package com.bbl.module_ads.event;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustAdRevenue;
@@ -42,6 +43,15 @@ public class BBLAdjust {
         Adjust.trackEvent(event);
     }
 
+    public static void onTrackIAPRevenue(String eventName, float revenue, String currency) {
+        AdjustEvent event = new AdjustEvent(eventName);
+        // Add revenue 1 cent of an euro.
+        event.setRevenue(revenue / 1000000.0, currency);
+        event.setProductId("123123");
+        event.setPurchaseToken("123123123");
+        Adjust.trackEvent(event);
+    }
+
     public static void onTrackRevenuePurchase(float revenue, String currency) {
         if (BBLAdjust.enableAdjust) {
             onTrackRevenue(eventNamePurchase, revenue, currency);
@@ -51,7 +61,8 @@ public class BBLAdjust {
 
     public static void pushTrackEventAdmob(AdValue adValue) {
         if (BBLAdjust.enableAdjust) {
-            AdjustAdRevenue adRevenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_ADMOB);
+//            AdjustAdRevenue adRevenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_ADMOB);
+            AdjustAdRevenue adRevenue = new AdjustAdRevenue("admob_sdk");
             adRevenue.setRevenue(adValue.getValueMicros() / 1000000.0, adValue.getCurrencyCode());
 
             Adjust.trackAdRevenue(adRevenue);
@@ -60,7 +71,8 @@ public class BBLAdjust {
 
     public static void pushTrackEventApplovin(MaxAd ad, Context context) {
         if (BBLAdjust.enableAdjust) {
-            AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_APPLOVIN_MAX);
+//            AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_APPLOVIN_MAX);
+            AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue("applovin_max_sdk");
             adjustAdRevenue.setRevenue(ad.getRevenue(), "USD");
             adjustAdRevenue.setAdRevenueNetwork(ad.getNetworkName());
             adjustAdRevenue.setAdRevenueUnit(ad.getAdUnitId());

@@ -52,6 +52,16 @@ public class BBLAdConfig {
      */
     private int intervalInterstitialAd = 0;
 
+    /**
+     * Custom layout for ResumeLoadingDialog
+     */
+    private int resumeLoadingDialogLayout = -1;
+
+    /**
+     * Custom layout for PrepareLoadingAdsDialog
+     */
+    private int prepareLoadingAdsDialogLayout = -1;
+
     public BBLAdConfig(Application application) {
         this.application = application;
     }
@@ -171,5 +181,37 @@ public class BBLAdConfig {
 
     public void setTiktokAppID(String tiktokAppID) {
         this.tiktokAppID = tiktokAppID;
+    }
+
+    /**
+     * Set custom layout for ResumeLoadingDialog
+     * @param resumeLoadingDialogLayout The layout resource ID for ResumeLoadingDialog
+     */
+    public void setResumeLoadingDialogLayout(int resumeLoadingDialogLayout) {
+        this.resumeLoadingDialogLayout = resumeLoadingDialogLayout;
+    }
+
+    /**
+     * Get custom layout for ResumeLoadingDialog
+     * @return The layout resource ID for ResumeLoadingDialog, -1 if not set
+     */
+    public int getResumeLoadingDialogLayout() {
+        return resumeLoadingDialogLayout;
+    }
+
+    /**
+     * Set custom layout for PrepareLoadingAdsDialog
+     * @param prepareLoadingAdsDialogLayout The layout resource ID for PrepareLoadingAdsDialog
+     */
+    public void setPrepareLoadingAdsDialogLayout(int prepareLoadingAdsDialogLayout) {
+        this.prepareLoadingAdsDialogLayout = prepareLoadingAdsDialogLayout;
+    }
+
+    /**
+     * Get custom layout for PrepareLoadingAdsDialog
+     * @return The layout resource ID for PrepareLoadingAdsDialog, -1 if not set
+     */
+    public int getPrepareLoadingAdsDialogLayout() {
+        return prepareLoadingAdsDialogLayout;
     }
 }

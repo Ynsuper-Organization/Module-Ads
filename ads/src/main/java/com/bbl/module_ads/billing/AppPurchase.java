@@ -862,6 +862,7 @@ public class AppPurchase {
         //tracking adjust
         double price = getPriceWithoutCurrency(idPurchaseCurrent, typeIap);
         String currency = getCurrency(idPurchaseCurrent, typeIap);
+
         BBLLogEventManager.onTrackRevenuePurchase((float) price, currency, idPurchaseCurrent, typeIap);
 
         if (purchaseListener != null) {

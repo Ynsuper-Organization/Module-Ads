@@ -1,11 +1,13 @@
 package com.bblabs.module_ads.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN_TEST";
 
     private static final String EVENT_TOKEN_SIMPLE = "";
-    private static final String EVENT_TOKEN_REVENUE = "";
+    private static final String EVENT_TOKEN_REVENUE = "wnyjng";
 
 
     private FrameLayout frAds;
@@ -55,15 +57,14 @@ public class MainActivity extends AppCompatActivity {
     private String idNative = "";
     private String idInter = "";
 
-    private BBLNativeAdView BBLNativeAdView;
+    private BBLNativeAdView bblNativeAdView;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BBLNativeAdView = findViewById(R.id.bbl_native_ads);
-
-
+        bblNativeAdView = findViewById(R.id.bbl_native_ads);
         new Thread(
                 () ->
                         // Initialize the Google Mobile Ads SDK on a background thread.
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         configMediationProvider();
         BBLAd.getInstance().setCountClickToShowAds(3);
-
+        BBLAd.getInstance().setPrepareLoadingAdsDialogLayout(R.layout.custom_loading_ads);
         AppOpenManager.getInstance().setEnableScreenContentCallback(true);
         AppOpenManager.getInstance().setFullScreenContentCallback(new FullScreenContentCallback() {
             @Override
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BBLNativeAdView.loadNativeAd(this, idNative, new BBLAdCallback() {
+        bblNativeAdView.loadNativeAd(this, idNative, new BBLAdCallback() {
             @Override
             public void onAdImpression() {
                 super.onAdImpression();
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onTrackRevenueEventClick(View v) {
-        BBLAdjust.onTrackRevenue(EVENT_TOKEN_REVENUE, 1f, "EUR");
+        BBLAdjust.onTrackIAPRevenue(EVENT_TOKEN_REVENUE, 1000000f, "USD");
     }
 
 

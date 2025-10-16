@@ -5,6 +5,8 @@
         <attr name="layoutCustomNativeAd" format="integer"/>
         <attr name="layoutLoading" format="integer"/>
         <attr name="layoutPlaceHolder" format="integer"/>
+        <attr name="isReloadLifeCycle" format="boolean"/>
+        <attr name="reloadAdId" format="string"/>
     </declare-styleable>
     <declare-styleable name="MiaBannerAdView">
         <attr name="idBanner" format="string"/>

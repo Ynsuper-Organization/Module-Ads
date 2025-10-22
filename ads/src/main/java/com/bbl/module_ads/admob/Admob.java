@@ -2603,6 +2603,21 @@ public class Admob {
                         context.getResources().getDisplayMetrics()
                 ));
                 callToActionView.setBackground(drawable);
+                
+                // Apply CTA height if configured
+                int ctaHeightDp = finalConfig.getCallToActionHeight();
+                if (ctaHeightDp > 0) {
+                    int ctaHeightPx = (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            ctaHeightDp,
+                            context.getResources().getDisplayMetrics()
+                    );
+                    android.view.ViewGroup.LayoutParams lp = callToActionView.getLayoutParams();
+                    if (lp != null) {
+                        lp.height = ctaHeightPx;
+                        callToActionView.setLayoutParams(lp);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

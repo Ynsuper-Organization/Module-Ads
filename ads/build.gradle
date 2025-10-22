@@ -111,8 +111,8 @@ afterEvaluate {
                 name = "GitHubPackages"
                 url = "https://maven.pkg.github.com/Binary-Bridge-Labs/BBLModuleAds"
                 credentials {
-                    username = project.findProperty("gpr.user") ?: System.getenv("ducanh3005")
-                    password = project.findProperty("gpr.key") ?: System.getenv("jp_v2t0mdou8llvktvrq3bfuubmh")
+                    username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
                 }
             }
         }

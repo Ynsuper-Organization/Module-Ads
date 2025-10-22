@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
 
 
-    implementation project(path: ':ads')
+    api project(path: ':ads')
 //    implementation 'com.github.Binary-Bridge-Labs:BBLModuleAds:2.0.8'
     implementation 'com.google.android.gms:play-services-ads:24.4.0'
     implementation 'androidx.multidex:multidex:2.0.1'

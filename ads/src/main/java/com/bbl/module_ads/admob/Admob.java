@@ -2226,6 +2226,60 @@ public class Admob {
         loadNative(mActivity, containerShimmer, frameLayout, adUnitId, R.layout.custom_native_admod_medium);
     }
 
+    /**
+     * Load native ad with custom configuration
+     *
+     * @param mActivity
+     * @param id
+     * @param config
+     */
+    public void loadNativeWithConfig(final Activity mActivity, String id,int layout, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+        final FrameLayout frameLayout = mActivity.findViewById(R.id.fl_adplaceholder);
+        final ShimmerFrameLayout containerShimmer = mActivity.findViewById(R.id.shimmer_container_native);
+        loadNative(mActivity, containerShimmer, frameLayout, id, layout, config);
+    }
+
+    /**
+     * Load native ad fragment with custom configuration
+     *
+     * @param mActivity
+     * @param id
+     * @param parent
+     * @param config
+     */
+    public void loadNativeFragmentWithConfig(final Activity mActivity, String id, View parent, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+        final FrameLayout frameLayout = parent.findViewById(R.id.fl_adplaceholder);
+        final ShimmerFrameLayout containerShimmer = parent.findViewById(R.id.shimmer_container_native);
+        loadNative(mActivity, containerShimmer, frameLayout, id, R.layout.custom_native_admob_free_size, config);
+    }
+
+    /**
+     * Load small native ad with custom configuration
+     *
+     * @param mActivity
+     * @param adUnitId
+     * @param config
+     */
+    public void loadSmallNativeWithConfig(final Activity mActivity, String adUnitId, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+        final FrameLayout frameLayout = mActivity.findViewById(R.id.fl_adplaceholder);
+        final ShimmerFrameLayout containerShimmer = mActivity.findViewById(R.id.shimmer_container_native);
+        loadNative(mActivity, containerShimmer, frameLayout, adUnitId, R.layout.custom_native_admod_medium, config);
+    }
+
+    /**
+     * Load small native ad fragment with custom configuration
+     *
+     * @param mActivity
+     * @param adUnitId
+     * @param parent
+     * @param config
+     */
+    public void loadSmallNativeFragmentWithConfig(final Activity mActivity, String adUnitId, View parent, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+        final FrameLayout frameLayout = parent.findViewById(R.id.fl_adplaceholder);
+        final ShimmerFrameLayout containerShimmer = parent.findViewById(R.id.shimmer_container_native);
+        loadNative(mActivity, containerShimmer, frameLayout, adUnitId, R.layout.custom_native_admod_medium, config);
+    }
+
     public void loadNativeAd(Context context, String id, final AdCallback callback) {
         if (Arrays.asList(context.getResources().getStringArray(R.array.list_id_test)).contains(id)) {
             showTestIdAlert(context, NATIVE_ADS, id);
@@ -2344,6 +2398,14 @@ public class Admob {
     }
 
     private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout) {
+        loadNative(context, containerShimmer, frameLayout, id, layout, null, null);
+    }
+
+    private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+        loadNative(context, containerShimmer, frameLayout, id, layout, null, config);
+    }
+
+    private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final AdCallback callback, final com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
         if (Arrays.asList(context.getResources().getStringArray(R.array.list_id_test)).contains(id)) {
             showTestIdAlert(context, NATIVE_ADS, id);
         }
@@ -2383,7 +2445,7 @@ public class Admob {
                                     id,
                                     nativeAd.getResponseInfo().getLoadedAdapterResponseInfo().getAdSourceName(), AdType.NATIVE);
                         });
-                        populateUnifiedNativeAdView(nativeAd, adView);
+                        populateUnifiedNativeAdView(nativeAd, adView, config);
                         frameLayout.removeAllViews();
                         frameLayout.addView(adView);
                     }
@@ -2414,81 +2476,20 @@ public class Admob {
     }
 
     private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final AdCallback callback) {
-        if (Arrays.asList(context.getResources().getStringArray(R.array.list_id_test)).contains(id)) {
-            showTestIdAlert(context, NATIVE_ADS, id);
-        }
-        if (AppPurchase.getInstance().isPurchased(context)) {
-            containerShimmer.setVisibility(View.GONE);
-            return;
-        }
-        frameLayout.removeAllViews();
-        frameLayout.setVisibility(View.GONE);
-        containerShimmer.setVisibility(View.VISIBLE);
-        containerShimmer.startShimmer();
-
-        VideoOptions videoOptions = new VideoOptions.Builder()
-                .setStartMuted(true)
-                .build();
-
-        NativeAdOptions adOptions = new NativeAdOptions.Builder()
-                .setVideoOptions(videoOptions)
-                .build();
-
-
-        AdLoader adLoader = new AdLoader.Builder(context, id)
-                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-
-                    @Override
-                    public void onNativeAdLoaded(@NonNull NativeAd nativeAd) {
-                        containerShimmer.stopShimmer();
-                        containerShimmer.setVisibility(View.GONE);
-                        frameLayout.setVisibility(View.VISIBLE);
-                        @SuppressLint("InflateParams") NativeAdView adView = (NativeAdView) LayoutInflater.from(context)
-                                .inflate(layout, null);
-                        nativeAd.setOnPaidEventListener(adValue -> {
-                            Log.d(TAG, "OnPaidEvent Native:" + adValue.getValueMicros());
-
-                            BBLLogEventManager.logPaidAdImpression(context,
-                                    adValue,
-                                    id,
-                                    nativeAd.getResponseInfo().getLoadedAdapterResponseInfo().getAdSourceName(), AdType.NATIVE);
-                        });
-                        populateUnifiedNativeAdView(nativeAd, adView);
-                        frameLayout.removeAllViews();
-                        frameLayout.addView(adView);
-                    }
-
-                })
-                .withAdListener(new AdListener() {
-                    @Override
-                    public void onAdFailedToLoad(LoadAdError error) {
-                        Log.e(TAG, "onAdFailedToLoad: " + error.getMessage());
-                        containerShimmer.stopShimmer();
-                        containerShimmer.setVisibility(View.GONE);
-                        frameLayout.setVisibility(View.GONE);
-                    }
-
-
-                    @Override
-                    public void onAdClicked() {
-                        super.onAdClicked();
-                        if (disableAdResumeWhenClickAds)
-                            AppOpenManager.getInstance().disableAdResumeByClickAction();
-                        if (callback != null) {
-                            callback.onAdClicked();
-                            Log.d(TAG, "onAdClicked");
-                        }
-                        BBLLogEventManager.logClickAdsEvent(context, id);
-                    }
-                })
-                .withNativeAdOptions(adOptions)
-                .build();
-
-
-        adLoader.loadAd(getAdRequest());
+        loadNative(context, containerShimmer, frameLayout, id, layout, callback, null);
     }
 
     public void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
+        populateUnifiedNativeAdView(nativeAd, adView, null);
+    }
+
+    public void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+        // Use default config if none provided
+        if (config == null) {
+            config = new com.bbl.module_ads.ads.nativeAds.NativeAdConfig();
+        }
+
+        final com.bbl.module_ads.ads.nativeAds.NativeAdConfig finalConfig = config;
 
         adView.setMediaView(adView.findViewById(R.id.ad_media));
 
@@ -2499,7 +2500,7 @@ public class Admob {
                     if (context != null && AppUtil.VARIANT_DEV) {
                         float sizeMin = TypedValue.applyDimension(
                                 TypedValue.COMPLEX_UNIT_DIP,
-                                120,
+                                finalConfig.getMinMediaViewSize(),
                                 context.getResources().getDisplayMetrics()
                         );
                         Log.e(TAG, "Native sizeMin: " + sizeMin);
@@ -2522,9 +2523,40 @@ public class Admob {
 //        adView.setStoreView(adView.findViewById(R.id.ad_store));
         adView.setAdvertiserView(adView.findViewById(R.id.ad_advertiser));
 
+        // Apply background tint to ad_unit_content if present; fallback to adView background
+        try {
+            View adUnitContent = adView.findViewById(R.id.ad_unit_content);
+            int bgColor = finalConfig.getAdViewBackgroundColor();
+            if (adUnitContent != null) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    adUnitContent.setBackgroundTintList(android.content.res.ColorStateList.valueOf(bgColor));
+                } else {
+                    adUnitContent.setBackgroundColor(bgColor);
+                }
+            } else {
+                adView.setBackgroundColor(bgColor);
+            }
+        } catch (Exception ignored) {}
+
+        // Apply content padding
+        try {
+            int padPx = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    finalConfig.getContentPadding(),
+                    context.getResources().getDisplayMetrics()
+            );
+            adView.setPadding(padPx, padPx, padPx, padPx);
+        } catch (Exception ignored) {}
+
         // The headline is guaranteed to be in every UnifiedNativeAd.
         try {
-            ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
+            TextView headlineView = (TextView) adView.getHeadlineView();
+            headlineView.setText(nativeAd.getHeadline());
+            headlineView.setTextSize(TypedValue.COMPLEX_UNIT_SP, finalConfig.getHeadlineTextSize());
+            headlineView.setTextColor(finalConfig.getHeadlineTextColor());
+            if (finalConfig.getHeadlineTypeface() != null) {
+                headlineView.setTypeface(finalConfig.getHeadlineTypeface());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2536,7 +2568,13 @@ public class Admob {
                 adView.getBodyView().setVisibility(View.INVISIBLE);
             } else {
                 adView.getBodyView().setVisibility(View.VISIBLE);
-                ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
+                TextView bodyView = (TextView) adView.getBodyView();
+                bodyView.setText(nativeAd.getBody());
+                bodyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, finalConfig.getBodyTextSize());
+                bodyView.setTextColor(finalConfig.getBodyTextColor());
+                if (finalConfig.getBodyTypeface() != null) {
+                    bodyView.setTypeface(finalConfig.getBodyTypeface());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2547,7 +2585,24 @@ public class Admob {
                 Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.INVISIBLE);
             } else {
                 Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.VISIBLE);
-                ((TextView) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
+                TextView callToActionView = (TextView) adView.getCallToActionView();
+                callToActionView.setText(nativeAd.getCallToAction());
+                callToActionView.setTextSize(TypedValue.COMPLEX_UNIT_SP, finalConfig.getCallToActionTextSize());
+                callToActionView.setTextColor(finalConfig.getCallToActionTextColor());
+                callToActionView.setBackgroundColor(finalConfig.getCallToActionBackgroundColor());
+                if (finalConfig.getCallToActionTypeface() != null) {
+                    callToActionView.setTypeface(finalConfig.getCallToActionTypeface());
+                }
+                
+                // Apply corner radius if supported
+                android.graphics.drawable.GradientDrawable drawable = new android.graphics.drawable.GradientDrawable();
+                drawable.setColor(finalConfig.getCallToActionBackgroundColor());
+                drawable.setCornerRadius(TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        finalConfig.getCallToActionCornerRadius(),
+                        context.getResources().getDisplayMetrics()
+                ));
+                callToActionView.setBackground(drawable);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2557,9 +2612,20 @@ public class Admob {
             if (nativeAd.getIcon() == null) {
                 Objects.requireNonNull(adView.getIconView()).setVisibility(View.GONE);
             } else {
-                ((ImageView) adView.getIconView()).setImageDrawable(
-                        nativeAd.getIcon().getDrawable());
-                adView.getIconView().setVisibility(View.VISIBLE);
+                ImageView iconView = (ImageView) adView.getIconView();
+                iconView.setImageDrawable(nativeAd.getIcon().getDrawable());
+                iconView.setVisibility(View.VISIBLE);
+                
+                // Apply icon size
+                android.view.ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
+                int iconSizePx = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        finalConfig.getIconSize(),
+                        context.getResources().getDisplayMetrics()
+                );
+                layoutParams.width = iconSizePx;
+                layoutParams.height = iconSizePx;
+                iconView.setLayoutParams(layoutParams);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2570,7 +2636,10 @@ public class Admob {
                 Objects.requireNonNull(adView.getPriceView()).setVisibility(View.INVISIBLE);
             } else {
                 Objects.requireNonNull(adView.getPriceView()).setVisibility(View.VISIBLE);
-                ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
+                TextView priceView = (TextView) adView.getPriceView();
+                priceView.setText(nativeAd.getPrice());
+                priceView.setTextSize(TypedValue.COMPLEX_UNIT_SP, finalConfig.getPriceTextSize());
+                priceView.setTextColor(finalConfig.getPriceTextColor());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2591,8 +2660,19 @@ public class Admob {
             if (nativeAd.getStarRating() == null) {
                 Objects.requireNonNull(adView.getStarRatingView()).setVisibility(View.INVISIBLE);
             } else {
-                ((RatingBar) Objects.requireNonNull(adView.getStarRatingView())).setRating(nativeAd.getStarRating().floatValue());
-                adView.getStarRatingView().setVisibility(View.VISIBLE);
+                RatingBar starRatingView = (RatingBar) Objects.requireNonNull(adView.getStarRatingView());
+                starRatingView.setRating(nativeAd.getStarRating().floatValue());
+                starRatingView.setVisibility(View.VISIBLE);
+                
+                // Apply star rating size
+                android.view.ViewGroup.LayoutParams layoutParams = starRatingView.getLayoutParams();
+                int starSizePx = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        finalConfig.getStarRatingSize(),
+                        context.getResources().getDisplayMetrics()
+                );
+                layoutParams.height = starSizePx;
+                starRatingView.setLayoutParams(layoutParams);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2602,8 +2682,11 @@ public class Admob {
             if (nativeAd.getAdvertiser() == null) {
                 adView.getAdvertiserView().setVisibility(View.INVISIBLE);
             } else {
-                ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
-                adView.getAdvertiserView().setVisibility(View.VISIBLE);
+                TextView advertiserView = (TextView) adView.getAdvertiserView();
+                advertiserView.setText(nativeAd.getAdvertiser());
+                advertiserView.setVisibility(View.VISIBLE);
+                advertiserView.setTextSize(TypedValue.COMPLEX_UNIT_SP, finalConfig.getAdvertiserTextSize());
+                advertiserView.setTextColor(finalConfig.getAdvertiserTextColor());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2613,6 +2696,30 @@ public class Admob {
         // native ad view with this native ad. The SDK will populate the adView's MediaView
         // with the media content from this native ad.
         adView.setNativeAd(nativeAd);
+
+        try {
+            View cta = adView.getCallToActionView();
+            if (cta != null) {
+                int bgColor = finalConfig.getCallToActionBackgroundColor();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    android.graphics.drawable.GradientDrawable drawable = new android.graphics.drawable.GradientDrawable();
+                    drawable.setColor(bgColor);
+                    drawable.setCornerRadius(TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            finalConfig.getCallToActionCornerRadius(),
+                            context.getResources().getDisplayMetrics()
+                    ));
+                    cta.setBackground(drawable);
+                } else {
+                    cta.setBackgroundColor(bgColor);
+                }
+                if (cta instanceof android.widget.Button) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        ((android.widget.Button) cta).setBackgroundTintList(android.content.res.ColorStateList.valueOf(bgColor));
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
 
     }
 

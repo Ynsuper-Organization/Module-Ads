@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,7 @@ import com.bbl.module_ads.admob.AppOpenManager;
 import com.bbl.module_ads.ads.BBLAd;
 import com.bbl.module_ads.ads.BBLAdCallback;
 import com.bbl.module_ads.ads.bannerAds.BBLBannerAdView;
-import com.bbl.module_ads.ads.nativeAds.BBLNativeAdView;
+import com.bbl.module_ads.ads.nativeAds.NativeAdConfig;
 import com.bbl.module_ads.ads.wrapper.ApAdError;
 import com.bbl.module_ads.ads.wrapper.ApInterstitialAd;
 import com.bbl.module_ads.ads.wrapper.ApRewardAd;
@@ -37,6 +36,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.AdapterStatus;
 import com.google.android.gms.ads.nativead.NativeAd;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
     private String idNative = "";
     private String idInter = "";
 
-    private BBLNativeAdView bblNativeAdView;
+//    private BBLNativeAdView bblNativeAdView;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bblNativeAdView = findViewById(R.id.bbl_native_ads);
+//        bblNativeAdView = findViewById(R.id.bbl_native_ads);
         new Thread(
                 () ->
                         // Initialize the Google Mobile Ads SDK on a background thread.
@@ -98,12 +100,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bblNativeAdView.loadNativeAd(this, idNative, new BBLAdCallback() {
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-            }
-        });
+//        bblNativeAdView.loadNativeAd(this, idNative, new BBLAdCallback() {
+//            @Override
+//            public void onAdImpression() {
+//                super.onAdImpression();
+//            }
+//        });
+
+        NativeAdConfig nativeConfig = loadNativeConfigFromAssets();
+        Admob.getInstance().loadNativeWithConfig(this, idNative, com.bbl.module_ads.R.layout.layout_native_custom, nativeConfig);
 
 
         AppPurchase.getInstance().setPurchaseListener(new PurchaseListener() {
@@ -287,6 +292,24 @@ public class MainActivity extends AppCompatActivity {
                 super.onAdImpression();
             }
         });
+    }
+
+    private NativeAdConfig loadNativeConfigFromAssets() {
+        try {
+            InputStream is = getAssets().open("native_ad_config.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            br.close();
+            is.close();
+            return NativeAdConfig.fromJson(this, sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new NativeAdConfig();
+        }
     }
 
     @Override

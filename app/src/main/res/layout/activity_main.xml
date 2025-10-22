@@ -7,16 +7,33 @@
     android:background="#FDA6A6"
     tools:context="com.bblabs.module_ads.activity.MainActivity">
 
-    <com.bbl.module_ads.ads.nativeAds.BBLNativeAdView
-        android:id="@+id/bbl_native_ads"
+<!--    <com.bbl.module_ads.ads.nativeAds.BBLNativeAdView-->
+<!--        android:id="@+id/bbl_native_ads"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_150sdp"-->
+<!--        android:background="@drawable/bg_card_ads"-->
+<!--        app:isReloadLifeCycle="false"-->
+<!--        app:layoutCustomNativeAd="@layout/custom_native_admod_medium_rate"-->
+<!--        app:layoutLoading="@layout/loading_native_medium"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!-- Native Ad with Config Support -->
+    <FrameLayout
+        android:id="@+id/fl_adplaceholder"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_150sdp"
-        android:background="@drawable/bg_card_ads"
-        app:isReloadLifeCycle="false"
-        app:layoutCustomNativeAd="@layout/custom_native_admod_medium_rate"
-        app:layoutLoading="@layout/loading_native_medium"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_container_native"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/parent" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
@@ -25,7 +42,7 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bbl_native_ads">
+        app:layout_constraintTop_toBottomOf="@+id/fl_adplaceholder">
 
 
         <Button

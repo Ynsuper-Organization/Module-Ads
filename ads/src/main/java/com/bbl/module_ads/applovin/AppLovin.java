@@ -87,8 +87,8 @@ public class AppLovin {
                 WebView.setDataDirectorySuffix(processName);
             }
         }
-        AppLovinSdk.getInstance(context).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(context, configuration -> {
+        // AppLovinSdk.getInstance(context).setMediationProvider("max");
+        AppLovinSdk.getInstance(context).initializeSdk(configuration -> {
             // AppLovin SDK is initialized, start loading ads
             Log.d(TAG, "init: applovin success");
             adCallback.initAppLovinSuccess();
@@ -106,8 +106,8 @@ public class AppLovin {
         }
         if (enableDebug)
             AppLovinSdk.getInstance(context).showMediationDebugger();
-        AppLovinSdk.getInstance(context).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(context, configuration -> {
+        // AppLovinSdk.getInstance(context).setMediationProvider("max");
+        AppLovinSdk.getInstance(context).initializeSdk(configuration -> {
             // AppLovin SDK is initialized, start loading ads
             Log.d(TAG, "init: applovin success");
             adCallback.initAppLovinSuccess();

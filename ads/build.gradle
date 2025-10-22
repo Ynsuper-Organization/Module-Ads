@@ -103,7 +103,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.Binary-Bridge-Labs'
                 artifactId = 'BBLModuleAds'
-                version = '2.1.6'
+                version = '2.1.7'
             }
         }
         repositories {

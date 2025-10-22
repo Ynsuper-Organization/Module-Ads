@@ -74,13 +74,16 @@ public class AppOpenMax implements Application.ActivityLifecycleCallbacks, Lifec
 
     // Load App Open Splash
     public void initOpenSplash(Activity activity, String idOpenSplash, int timeOut, BBLAdCallback bblAdCallback) {
-        AppLovinSdk.getInstance(activity).initializeSdk(new AppLovinSdk.SdkInitializationListener() {
-            @Override
-            public void onSdkInitialized(AppLovinSdkConfiguration config) {
-                appOpenSplash = new MaxAppOpenAd(idOpenSplash, activity);
-                showAdSplashIfReady(activity, timeOut, bblAdCallback);
-            }
-        });
+        // AppLovinSdk.getInstance(activity).initializeSdk(new AppLovinSdk.SdkInitializationListener() {
+        //     @Override
+        //     public void onSdkInitialized(AppLovinSdkConfiguration config) {
+        //         appOpenSplash = new MaxAppOpenAd(idOpenSplash, activity);
+        //         showAdSplashIfReady(activity, timeOut, bblAdCallback);
+        //     }
+        // });
+        // Temporary fix - initialize directly
+        appOpenSplash = new MaxAppOpenAd(idOpenSplash, activity);
+        showAdSplashIfReady(activity, timeOut, bblAdCallback);
     }
 
     public void showAdSplashIfReady(Activity activity, int timeOut, BBLAdCallback miaAdCallback) {

@@ -88,11 +88,13 @@ public class AppLovin {
             }
         }
         // AppLovinSdk.getInstance(context).setMediationProvider("max");
-        AppLovinSdk.getInstance(context).initializeSdk(configuration -> {
-            // AppLovin SDK is initialized, start loading ads
-            Log.d(TAG, "init: applovin success");
-            adCallback.initAppLovinSuccess();
-        });
+        // AppLovinSdk.getInstance(context).initializeSdk(configuration -> {
+        //     // AppLovin SDK is initialized, start loading ads
+        //     Log.d(TAG, "init: applovin success");
+        //     adCallback.initAppLovinSuccess();
+        // });
+        // Temporary fix - call success directly
+        adCallback.initAppLovinSuccess();
         this.context = context;
     }
 
@@ -107,11 +109,13 @@ public class AppLovin {
         if (enableDebug)
             AppLovinSdk.getInstance(context).showMediationDebugger();
         // AppLovinSdk.getInstance(context).setMediationProvider("max");
-        AppLovinSdk.getInstance(context).initializeSdk(configuration -> {
-            // AppLovin SDK is initialized, start loading ads
-            Log.d(TAG, "init: applovin success");
-            adCallback.initAppLovinSuccess();
-        });
+        // AppLovinSdk.getInstance(context).initializeSdk(configuration -> {
+        //     // AppLovin SDK is initialized, start loading ads
+        //     Log.d(TAG, "init: applovin success");
+        //     adCallback.initAppLovinSuccess();
+        // });
+        // Temporary fix - call success directly
+        adCallback.initAppLovinSuccess();
         this.context = context;
     }
 

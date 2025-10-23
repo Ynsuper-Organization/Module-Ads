@@ -85,6 +85,29 @@ public class ApNativeAd extends ApAdBase {
         this.nativeAdConfig = nativeAdConfig;
     }
 
+    /**
+     * Mark this ad as impressed
+     */
+    public void markAsImpressed() {
+        this.status = StatusAd.AD_IMPRESSED;
+    }
+
+    /**
+     * Check if this ad has been impressed
+     * @return true if ad has been impressed, false otherwise
+     */
+    public boolean isImpressed() {
+        return this.status == StatusAd.AD_IMPRESSED;
+    }
+
+    /**
+     * Check if this ad is ready to be impressed (loaded but not yet impressed)
+     * @return true if ad is loaded and not yet impressed
+     */
+    public boolean isReadyToImpress() {
+        return isReady() && !isImpressed();
+    }
+
     public String toString() {
         return "Status:" + status + " == nativeView:" + nativeView + " == admobNativeAd:" + admobNativeAd;
     }

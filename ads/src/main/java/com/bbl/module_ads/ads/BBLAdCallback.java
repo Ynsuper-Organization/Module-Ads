@@ -46,6 +46,9 @@ public class BBLAdCallback {
     public void onAdImpression() {
     }
 
+    public void onAdImpression(@NonNull ApNativeAd nativeAd) {
+    }
+
 
     public void onNativeAdLoaded(@NonNull ApNativeAd nativeAd) {
 

@@ -1286,16 +1286,23 @@ public class BBLAd {
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
-                        populateNativeAdView(activity, new ApNativeAd(layoutCustomNative, unifiedNativeAd), adPlaceHolder, containerShimmerLoading);
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd);
+                        callback.onNativeAdLoaded(nativeAdInstance);
+                        populateNativeAdView(activity, nativeAdInstance, adPlaceHolder, containerShimmerLoading);
                     }
 
                     @Override
                     public void onAdImpression() {
                         super.onAdImpression();
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
                         callback.onAdImpression();
                     }
 
@@ -1320,11 +1327,18 @@ public class BBLAd {
                 break;
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
-                        populateNativeAdView(activity, new ApNativeAd(layoutCustomNative, unifiedNativeAd), adPlaceHolder, containerShimmerLoading);
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd);
+                        callback.onNativeAdLoaded(nativeAdInstance);
+                        populateNativeAdView(activity, nativeAdInstance, adPlaceHolder, containerShimmerLoading);
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
                         callback.onAdImpression();
                     }
 
@@ -1361,16 +1375,23 @@ public class BBLAd {
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
-                        populateNativeAdViewWithConfig(activity, new ApNativeAd(layoutCustomNative, unifiedNativeAd), adPlaceHolder, containerShimmerLoading, nativeAdConfig);
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd);
+                        callback.onNativeAdLoaded(nativeAdInstance);
+                        populateNativeAdViewWithConfig(activity, nativeAdInstance, adPlaceHolder, containerShimmerLoading, nativeAdConfig);
                     }
 
                     @Override
                     public void onAdImpression() {
                         super.onAdImpression();
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
                         callback.onAdImpression();
                     }
 
@@ -1395,11 +1416,18 @@ public class BBLAd {
                 break;
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
-                        populateNativeAdViewWithConfig(activity, new ApNativeAd(layoutCustomNative, unifiedNativeAd), adPlaceHolder, containerShimmerLoading, nativeAdConfig);
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd);
+                        callback.onNativeAdLoaded(nativeAdInstance);
+                        populateNativeAdViewWithConfig(activity, nativeAdInstance, adPlaceHolder, containerShimmerLoading, nativeAdConfig);
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
                         callback.onAdImpression();
                     }
 
@@ -1432,10 +1460,13 @@ public class BBLAd {
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(activity, id, new AdCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd, nativeAdConfig));
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd, nativeAdConfig);
+                        callback.onNativeAdLoaded(nativeAdInstance);
                     }
 
                     @Override
@@ -1465,6 +1496,10 @@ public class BBLAd {
                     @Override
                     public void onAdImpression() {
                         super.onAdImpression();
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
                         if (callback != null)
                             callback.onAdImpression();
                     }
@@ -1472,10 +1507,18 @@ public class BBLAd {
                 break;
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd, nativeAdConfig));
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd, nativeAdConfig);
+                        callback.onNativeAdLoaded(nativeAdInstance);
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
+                        callback.onAdImpression();
                     }
 
                     @Override
@@ -1499,10 +1542,13 @@ public class BBLAd {
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd);
+                        callback.onNativeAdLoaded(nativeAdInstance);
                     }
 
                     @Override
@@ -1526,6 +1572,10 @@ public class BBLAd {
                     @Override
                     public void onAdImpression() {
                         super.onAdImpression();
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
                         if (callback != null)
                             callback.onAdImpression();
                     }
@@ -1533,10 +1583,18 @@ public class BBLAd {
                 break;
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
+                    private ApNativeAd nativeAdInstance;
+                    
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                        nativeAdInstance = new ApNativeAd(layoutCustomNative, unifiedNativeAd);
+                        callback.onNativeAdLoaded(nativeAdInstance);
+                        if (nativeAdInstance != null) {
+                            nativeAdInstance.markAsImpressed();
+                            callback.onAdImpression(nativeAdInstance);
+                        }
+                        callback.onAdImpression();
                     }
 
                     @Override

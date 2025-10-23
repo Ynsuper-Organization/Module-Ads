@@ -117,17 +117,30 @@ class MainActivity : AppCompatActivity() {
 //        })
 
         // Method 2: Use new method with explicit config (recommended)
-        bblNativeAdView.loadNativeAdWithConfig(this, idNative, object : BBLAdCallback() {
-            override fun onNativeAdLoaded(nativeAd: ApNativeAd) {
-                super.onNativeAdLoaded(nativeAd)
-                Log.d(TAG, "BBLNativeAdView: Native ad loaded with explicit config")
-            }
-            
-            override fun onAdFailedToLoad(adError: ApAdError?) {
-                super.onAdFailedToLoad(adError)
-                Log.d(TAG, "BBLNativeAdView: Failed to load native ad")
-            }
-        }, loadNativeConfigFromAssets("native_ad_config_2.json"))
+//        bblNativeAdView.loadNativeAdWithConfig(this, idNative, object : BBLAdCallback() {
+//            var apNativeAd : ApNativeAd? = null
+//            override fun onNativeAdLoaded(nativeAd: ApNativeAd) {
+//                super.onNativeAdLoaded(nativeAd)
+//                apNativeAd = nativeAd
+//                apNativeAd?.status
+//                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
+//            }
+//
+//            override fun onAdFailedToLoad(adError: ApAdError?) {
+//                super.onAdFailedToLoad(adError)
+//                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
+//            }
+//
+//            override fun onAdImpression() {
+//                super.onAdImpression()
+//                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
+//            }
+//
+//            override fun onAdLoaded() {
+//                super.onAdLoaded()
+//                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
+//            }
+//        }, loadNativeConfigFromAssets("native_ad_config_2.json"))
 
 //        Admob.getInstance().loadNativeWithConfig(
 //            this,
@@ -140,8 +153,10 @@ class MainActivity : AppCompatActivity() {
         idNative,
         com.bbl.module_ads.R.layout.layout_native_custom,
         object : BBLAdCallback() {
+            var apNativeAd : ApNativeAd? = null
             override fun onNativeAdLoaded(nativeAd: ApNativeAd) {
-                Log.d(TAG, "onNativeAdLoaded: preloadConfig Native ad loaded with explicit config")
+                apNativeAd = nativeAd
+                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
                 BBLAd.getInstance().populateNativeAdViewWithConfig(
                     this@MainActivity,
                     nativeAd,
@@ -150,12 +165,21 @@ class MainActivity : AppCompatActivity() {
                     loadNativeConfigFromAssets("native_ad_config.json")
                 )
             }
-
             override fun onAdFailedToLoad(adError: ApAdError?) {
-
-                Log.d(TAG, "onAdFailedToLoad: preloadConfig Failed to load native ad")
-
+                super.onAdFailedToLoad(adError)
+                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
             }
+
+            override fun onAdImpression() {
+                super.onAdImpression()
+                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
+            }
+
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
+            }
+
         }
     )
 

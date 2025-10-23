@@ -1,2 +1,4 @@
 jdk:
-  -openjdk11
+  - openjdk11
+env:
+  JITPACK_TOKEN: jp_v2t0mdou8llvktvrq3bfuubmh

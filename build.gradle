@@ -16,6 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
+
         google()
         jcenter()
         maven { setUrl("https://jitpack.io") }
@@ -27,6 +28,13 @@ allprojects {
         }
         maven {
             url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea")
+        }
+        maven {
+            url 'https://jitpack.io/'
+            credentials {
+                username project.findProperty("ducanh3005") ?: ""
+                password project.findProperty(authToken) ?: ""
+            }
         }
     }
 }

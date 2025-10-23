@@ -101,15 +101,15 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.github.ducanh3005'
+                groupId = 'com.github.Binary-Bridge-Labs'
                 artifactId = 'BBLModuleAds'
-                version = '2.1.7'
+                version = '1.0.0'
             }
         }
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = "https://maven.pkg.github.com/ducanh3005/BBLModuleAds"
+                url = "https://maven.pkg.github.com/Binary-Bridge-Labs/BBLModuleAds"
                 credentials {
                     username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                     password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")

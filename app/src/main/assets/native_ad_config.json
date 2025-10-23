@@ -1,20 +1,17 @@
 {
   "headlineTextSize": 18,
   "bodyTextSize": 14,
-  "callToActionTextSize": 16,
+  "callToActionTextSize": 10,
   "advertiserTextSize": 12,
-
-  "headlineTextColor": "#FF000000",
-  "bodyTextColor": "#FF666666",
-  "callToActionTextColor": "#FFFFFFFF",
-  "advertiserTextColor": "#FF999999",
-
-  "callToActionBackgroundColor": "#FF4285F4",
+  "headlineTextColor": "#000000",
+  "bodyTextColor": "#666666",
+  "callToActionTextColor": "#FFFFFF",
+  "advertiserTextColor": "#999999",
   "adViewBackgroundColor": "#000000",
-
   "iconSize": 48,
-  "contentPadding": 16,
+  "contentPadding": 8,
   "minMediaViewSize": 120,
+  "callToActionBackgroundColor": "#4285F4",
   "callToActionCornerRadius": 100,
   "callToActionHeight": 40
 }

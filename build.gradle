@@ -29,13 +29,13 @@ allprojects {
         maven {
             url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea")
         }
-        maven {
-            url 'https://jitpack.io/'
-            credentials {
-                username project.findProperty("ducanh3005") ?: ""
-                password project.findProperty("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") ?: ""
-            }
-        }
+//        maven {
+//            url 'https://jitpack.io/'
+//            credentials {
+//                username = project.findProperty("gpr.user") ?: ""
+//                password = project.findProperty("gpr.key") ?: ""
+//            }
+//        }
     }
 }
 

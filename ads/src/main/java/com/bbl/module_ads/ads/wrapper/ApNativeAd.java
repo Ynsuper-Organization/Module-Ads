@@ -3,11 +3,13 @@ package com.bbl.module_ads.ads.wrapper;
 import android.view.View;
 
 import com.google.android.gms.ads.nativead.NativeAd;
+import com.bbl.module_ads.ads.nativeAds.NativeAdConfig;
 
 public class ApNativeAd extends ApAdBase {
     private int layoutCustomNative;
     private View nativeView;
     private NativeAd admobNativeAd;
+    private NativeAdConfig nativeAdConfig;
 
     public ApNativeAd(StatusAd status) {
         super(status);
@@ -22,6 +24,20 @@ public class ApNativeAd extends ApAdBase {
     public ApNativeAd(int layoutCustomNative, NativeAd admobNativeAd) {
         this.layoutCustomNative = layoutCustomNative;
         this.admobNativeAd = admobNativeAd;
+        status = StatusAd.AD_LOADED;
+    }
+
+    public ApNativeAd(int layoutCustomNative, NativeAd admobNativeAd, NativeAdConfig nativeAdConfig) {
+        this.layoutCustomNative = layoutCustomNative;
+        this.admobNativeAd = admobNativeAd;
+        this.nativeAdConfig = nativeAdConfig;
+        status = StatusAd.AD_LOADED;
+    }
+
+    public ApNativeAd(int layoutCustomNative, View nativeView, NativeAdConfig nativeAdConfig) {
+        this.layoutCustomNative = layoutCustomNative;
+        this.nativeView = nativeView;
+        this.nativeAdConfig = nativeAdConfig;
         status = StatusAd.AD_LOADED;
     }
 
@@ -59,6 +75,14 @@ public class ApNativeAd extends ApAdBase {
 
     public void setNativeView(View nativeView) {
         this.nativeView = nativeView;
+    }
+
+    public NativeAdConfig getNativeAdConfig() {
+        return nativeAdConfig;
+    }
+
+    public void setNativeAdConfig(NativeAdConfig nativeAdConfig) {
+        this.nativeAdConfig = nativeAdConfig;
     }
 
     public String toString() {

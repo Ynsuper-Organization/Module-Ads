@@ -1431,11 +1431,11 @@ public class BBLAd {
                                            int layoutCustomNative, NativeAdConfig nativeAdConfig, BBLAdCallback callback) {
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_ADMOB:
-                Admob.getInstance().loadNativeWithConfig(activity, id, layoutCustomNative, nativeAdConfig, new AdCallback() {
+                Admob.getInstance().loadNativeAd(activity, id, new AdCallback() {
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd, nativeAdConfig));
                     }
 
                     @Override
@@ -1475,7 +1475,7 @@ public class BBLAd {
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
-                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd, nativeAdConfig));
                     }
 
                     @Override

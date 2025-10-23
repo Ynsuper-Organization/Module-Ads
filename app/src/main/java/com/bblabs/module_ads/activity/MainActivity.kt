@@ -1,6 +1,7 @@
 package com.bblabs.module_ads.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -128,12 +129,35 @@ class MainActivity : AppCompatActivity() {
             }
         }, loadNativeConfigFromAssets("native_ad_config_2.json"))
 
-        Admob.getInstance().loadNativeWithConfig(
-            this,
-            idNative,
-            com.bbl.module_ads.R.layout.layout_native_custom,
-            loadNativeConfigFromAssets("native_ad_config.json"), null
-        )
+//        Admob.getInstance().loadNativeWithConfig(
+//            this,
+//            idNative,
+//            com.bbl.module_ads.R.layout.layout_native_custom,
+//            loadNativeConfigFromAssets("native_ad_config.json"), null
+//        )
+    BBLAd.getInstance().loadNativeAdResultCallback(
+        this,
+        idNative,
+        com.bbl.module_ads.R.layout.layout_native_custom,
+        object : BBLAdCallback() {
+            override fun onNativeAdLoaded(nativeAd: ApNativeAd) {
+                Log.d(TAG, "onNativeAdLoaded: preloadConfig Native ad loaded with explicit config")
+                BBLAd.getInstance().populateNativeAdViewWithConfig(
+                    this@MainActivity,
+                    nativeAd,
+                    findViewById(R.id.fl_adplaceholder),
+                    findViewById(R.id.shimmer_container_native),
+                    loadNativeConfigFromAssets("native_ad_config.json")
+                )
+            }
+
+            override fun onAdFailedToLoad(adError: ApAdError?) {
+
+                Log.d(TAG, "onAdFailedToLoad: preloadConfig Failed to load native ad")
+
+            }
+        }
+    )
 
 
 

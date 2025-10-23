@@ -1,4 +1,5 @@
 jdk:
   - openjdk11
 env:
-  JITPACK_TOKEN: jp_v2t0mdou8llvktvrq3bfuubmh
+  GITHUB_USERNAME: ducanh3005
+  GITHUB_TOKEN: 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

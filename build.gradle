@@ -33,7 +33,7 @@ allprojects {
             url 'https://jitpack.io/'
             credentials {
                 username project.findProperty("ducanh3005") ?: ""
-                password project.findProperty(authToken) ?: ""
+                password project.findProperty("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") ?: ""
             }
         }
     }

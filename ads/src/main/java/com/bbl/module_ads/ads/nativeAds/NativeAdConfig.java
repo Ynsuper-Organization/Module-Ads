@@ -53,8 +53,8 @@ public class NativeAdConfig {
     // Padding values (in DP)
     private int contentPadding = 16;
     
-    // Minimum media view size validation (in DP)
-    private float minMediaViewSize = 120f;
+    // Media view size (in DP)
+    private float mediaViewSize = 120f;
     
     public NativeAdConfig() {
         // Default constructor with default values
@@ -144,8 +144,8 @@ public class NativeAdConfig {
         return contentPadding;
     }
     
-    public float getMinMediaViewSize() {
-        return minMediaViewSize;
+    public float getMediaViewSize() {
+        return mediaViewSize;
     }
     
     // Setters with builder pattern
@@ -261,8 +261,8 @@ public class NativeAdConfig {
         return this;
     }
     
-    public NativeAdConfig setMinMediaViewSize(float minMediaViewSize) {
-        this.minMediaViewSize = minMediaViewSize;
+    public NativeAdConfig setMediaViewSize(float mediaViewSize) {
+        this.mediaViewSize = mediaViewSize;
         return this;
     }
 
@@ -282,7 +282,7 @@ public class NativeAdConfig {
         if (obj.has("iconSize")) cfg.setIconSize(obj.optInt("iconSize", cfg.getIconSize()));
         if (obj.has("starRatingSize")) cfg.setStarRatingSize(obj.optInt("starRatingSize", cfg.getStarRatingSize()));
         if (obj.has("contentPadding")) cfg.setContentPadding(obj.optInt("contentPadding", cfg.getContentPadding()));
-        if (obj.has("minMediaViewSize")) cfg.setMinMediaViewSize((float) obj.optDouble("minMediaViewSize", cfg.getMinMediaViewSize()));
+        if (obj.has("mediaViewSize")) cfg.setMediaViewSize((float) obj.optDouble("mediaViewSize", cfg.getMediaViewSize()));
 
         // Colors (support hex strings like #RRGGBB/#AARRGGBB)
         if (obj.has("headlineTextColor")) cfg.setHeadlineTextColor(parseColor(obj.optString("headlineTextColor"), cfg.getHeadlineTextColor()));

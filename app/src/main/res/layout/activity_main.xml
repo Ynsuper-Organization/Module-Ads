@@ -17,7 +17,7 @@
             android:layout_height="@dimen/_150sdp"
             android:background="@drawable/bg_card_ads"
             app:isReloadLifeCycle="false"
-            app:layoutCustomNativeAd="@layout/custom_native_admod_medium_rate"
+            app:layoutCustomNativeAd="@layout/layout_native_custom"
             app:layoutLoading="@layout/loading_native_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

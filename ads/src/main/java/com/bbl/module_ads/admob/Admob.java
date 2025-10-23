@@ -2514,26 +2514,32 @@ public class Admob {
 
         adView.setMediaView(adView.findViewById(R.id.ad_media));
 
+        // Apply media view size or hide if size is 0
         if (adView.getMediaView() != null) {
-            adView.getMediaView().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (context != null && AppUtil.VARIANT_DEV) {
-                        float sizeMin = TypedValue.applyDimension(
+            try {
+                float mediaViewSize = finalConfig.getMediaViewSize();
+                if (mediaViewSize <= 0) {
+                    // Hide MediaView if size is 0 or negative
+                    adView.getMediaView().setVisibility(View.GONE);
+                } else {
+                    // Show MediaView and apply size
+                    adView.getMediaView().setVisibility(View.VISIBLE);
+                    android.view.ViewGroup.LayoutParams layoutParams = adView.getMediaView().getLayoutParams();
+                    if (layoutParams != null) {
+                        int mediaSizePx = (int) TypedValue.applyDimension(
                                 TypedValue.COMPLEX_UNIT_DIP,
-                                finalConfig.getMinMediaViewSize(),
+                                mediaViewSize,
                                 context.getResources().getDisplayMetrics()
                         );
-                        Log.e(TAG, "Native sizeMin: " + sizeMin);
-                        Log.e(TAG, "Native w/h media : " + adView.getMediaView().getWidth() + "/" + adView.getMediaView().getHeight());
-                        if (adView.getMediaView().getWidth() < sizeMin || adView.getMediaView().getHeight() < sizeMin) {
-                            Toast.makeText(context, "Size media native not valid", Toast.LENGTH_SHORT).show();
-                        }
+                        layoutParams.height = mediaSizePx;
+                        adView.getMediaView().setLayoutParams(layoutParams);
                     }
                 }
-            }, 1000);
-
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
         adView.setBodyView(adView.findViewById(R.id.ad_body));

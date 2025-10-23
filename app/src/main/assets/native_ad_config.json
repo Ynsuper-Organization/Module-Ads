@@ -10,7 +10,7 @@
   "adViewBackgroundColor": "#000000",
   "iconSize": 12,
   "contentPadding": 8,
-  "minMediaViewSize": 120,
+  "mediaViewSize": 200,
   "callToActionBackgroundColor": "#4285F4",
   "callToActionCornerRadius": 100,
   "callToActionHeight": 40

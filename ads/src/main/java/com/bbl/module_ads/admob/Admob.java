@@ -35,9 +35,9 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bbl.module_ads.R;
 import com.applovin.mediation.AppLovinExtras;
 import com.applovin.mediation.ApplovinAdapter;
+import com.bbl.module_ads.R;
 import com.bbl.module_ads.ads.nativeAds.AdmobRecyclerAdapter;
 import com.bbl.module_ads.ads.nativeAds.BBLAdPlacer;
 import com.bbl.module_ads.ads.nativeAds.BBLAdPlacerSettings;
@@ -1198,7 +1198,7 @@ public class Admob {
             }
         });
 
-        if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)|| ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) {
+        if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED) || ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) {
             try {
                 if (dialog != null && dialog.isShowing())
                     dialog.dismiss();
@@ -1243,7 +1243,7 @@ public class Admob {
                 }
             }, 800);
 
-        } else{
+        } else {
             isShowLoadingSplash = false;
             Log.e(TAG, "onShowSplash: fail on background");
         }
@@ -1660,7 +1660,7 @@ public class Admob {
     private void showInterstitialAd(Context context, InterstitialAd mInterstitialAd, AdCallback callback) {
         currentClicked++;
         if (currentClicked >= numShowAds && mInterstitialAd != null) {
-            if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)|| ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) {
+            if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED) || ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) {
                 try {
                     if (dialog != null && dialog.isShowing())
                         dialog.dismiss();
@@ -2233,10 +2233,10 @@ public class Admob {
      * @param id
      * @param config
      */
-    public void loadNativeWithConfig(final Activity mActivity, String id,int layout, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+    public void loadNativeWithConfig(final Activity mActivity, String id, int layout, com.bbl.module_ads.ads.nativeAds.NativeAdConfig config, AdCallback callback) {
         final FrameLayout frameLayout = mActivity.findViewById(R.id.fl_adplaceholder);
         final ShimmerFrameLayout containerShimmer = mActivity.findViewById(R.id.shimmer_container_native);
-        loadNative(mActivity, containerShimmer, frameLayout, id, layout, config);
+        loadNative(mActivity, containerShimmer, frameLayout, id, layout, config, callback);
     }
 
     /**
@@ -2402,10 +2402,10 @@ public class Admob {
     }
 
     private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
-        loadNative(context, containerShimmer, frameLayout, id, layout, null, config);
+        loadNative(context, containerShimmer, frameLayout, id, layout, config, null);
     }
 
-    private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final AdCallback callback, final com.bbl.module_ads.ads.nativeAds.NativeAdConfig config) {
+    private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final com.bbl.module_ads.ads.nativeAds.NativeAdConfig config, final AdCallback callback) {
         if (Arrays.asList(context.getResources().getStringArray(R.array.list_id_test)).contains(id)) {
             showTestIdAlert(context, NATIVE_ADS, id);
         }
@@ -2432,6 +2432,8 @@ public class Admob {
 
                     @Override
                     public void onNativeAdLoaded(@NonNull NativeAd nativeAd) {
+                        if (callback != null)
+                            callback.onUnifiedNativeAdLoaded(nativeAd);
                         containerShimmer.stopShimmer();
                         containerShimmer.setVisibility(View.GONE);
                         frameLayout.setVisibility(View.VISIBLE);
@@ -2454,7 +2456,17 @@ public class Admob {
                 })
                 .withAdListener(new AdListener() {
                     @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        if (callback != null)
+                            callback.onAdLoaded();
+
+                    }
+
+                    @Override
                     public void onAdFailedToLoad(LoadAdError error) {
+                        if (callback != null)
+                            callback.onAdFailedToLoad(error);
                         Log.e(TAG, "onAdFailedToLoad: " + error.getMessage());
                         containerShimmer.stopShimmer();
                         containerShimmer.setVisibility(View.GONE);
@@ -2463,10 +2475,19 @@ public class Admob {
 
                     @Override
                     public void onAdClicked() {
+                        if (callback != null)
+                            callback.onAdClicked();
                         super.onAdClicked();
                         if (disableAdResumeWhenClickAds)
                             AppOpenManager.getInstance().disableAdResumeByClickAction();
                         BBLLogEventManager.logClickAdsEvent(context, id);
+                    }
+
+                    @Override
+                    public void onAdImpression() {
+                        super.onAdImpression();
+                        if (callback != null)
+                            callback.onAdImpression();
                     }
                 })
                 .withNativeAdOptions(adOptions)
@@ -2476,7 +2497,7 @@ public class Admob {
     }
 
     private void loadNative(final Context context, final ShimmerFrameLayout containerShimmer, final FrameLayout frameLayout, final String id, final int layout, final AdCallback callback) {
-        loadNative(context, containerShimmer, frameLayout, id, layout, callback, null);
+        loadNative(context, containerShimmer, frameLayout, id, layout, null, callback);
     }
 
     public void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
@@ -2536,7 +2557,8 @@ public class Admob {
             } else {
                 adView.setBackgroundColor(bgColor);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         // Apply content padding
         try {
@@ -2546,7 +2568,8 @@ public class Admob {
                     context.getResources().getDisplayMetrics()
             );
             adView.setPadding(padPx, padPx, padPx, padPx);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         // The headline is guaranteed to be in every UnifiedNativeAd.
         try {
@@ -2593,7 +2616,7 @@ public class Admob {
                 if (finalConfig.getCallToActionTypeface() != null) {
                     callToActionView.setTypeface(finalConfig.getCallToActionTypeface());
                 }
-                
+
                 // Apply corner radius if supported
                 android.graphics.drawable.GradientDrawable drawable = new android.graphics.drawable.GradientDrawable();
                 drawable.setColor(finalConfig.getCallToActionBackgroundColor());
@@ -2603,7 +2626,7 @@ public class Admob {
                         context.getResources().getDisplayMetrics()
                 ));
                 callToActionView.setBackground(drawable);
-                
+
                 // Apply CTA height if configured
                 int ctaHeightDp = finalConfig.getCallToActionHeight();
                 if (ctaHeightDp > 0) {
@@ -2630,7 +2653,7 @@ public class Admob {
                 ImageView iconView = (ImageView) adView.getIconView();
                 iconView.setImageDrawable(nativeAd.getIcon().getDrawable());
                 iconView.setVisibility(View.VISIBLE);
-                
+
                 // Apply icon size
                 android.view.ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
                 int iconSizePx = (int) TypedValue.applyDimension(
@@ -2678,7 +2701,7 @@ public class Admob {
                 RatingBar starRatingView = (RatingBar) Objects.requireNonNull(adView.getStarRatingView());
                 starRatingView.setRating(nativeAd.getStarRating().floatValue());
                 starRatingView.setVisibility(View.VISIBLE);
-                
+
                 // Apply star rating size
                 android.view.ViewGroup.LayoutParams layoutParams = starRatingView.getLayoutParams();
                 int starSizePx = (int) TypedValue.applyDimension(
@@ -2734,7 +2757,8 @@ public class Admob {
                     }
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
     }
 

@@ -7,11 +7,11 @@
   "bodyTextColor": "#666666",
   "callToActionTextColor": "#FFFFFF",
   "advertiserTextColor": "#999999",
-  "adViewBackgroundColor": "#000000",
+  "adViewBackgroundColor": "#FFFFFF",
   "iconSize": 12,
   "contentPadding": 8,
   "minMediaViewSize": 120,
-  "callToActionBackgroundColor": "#4285F4",
+  "callToActionBackgroundColor": "#000000",
   "callToActionCornerRadius": 100,
-  "callToActionHeight": 40
+  "callToActionHeight": 60
 }

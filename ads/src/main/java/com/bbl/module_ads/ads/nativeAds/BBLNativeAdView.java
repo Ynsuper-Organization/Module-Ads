@@ -33,6 +33,9 @@ public class BBLNativeAdView extends RelativeLayout implements DefaultLifecycleO
     private Activity currentActivity;
     private String currentAdId;
     private BBLAdCallback currentCallback;
+    
+    // Native ad configuration
+    private NativeAdConfig nativeAdConfig;
 
     public BBLNativeAdView(@NonNull Context context) {
         super(context);
@@ -122,12 +125,49 @@ public class BBLNativeAdView extends RelativeLayout implements DefaultLifecycleO
         return reloadAdId;
     }
 
+    /**
+     * Set native ad configuration for customizing ad appearance
+     * @param nativeAdConfig The configuration object
+     */
+    public void setNativeAdConfig(NativeAdConfig nativeAdConfig) {
+        this.nativeAdConfig = nativeAdConfig;
+    }
+
+    /**
+     * Get current native ad configuration
+     * @return The native ad configuration, null if not set
+     */
+    public NativeAdConfig getNativeAdConfig() {
+        return nativeAdConfig;
+    }
+
+    /**
+     * Load native ad configuration from JSON string
+     * @param jsonString The JSON configuration string
+     * @throws org.json.JSONException if JSON parsing fails
+     */
+    public void setNativeAdConfigFromJson(String jsonString) throws org.json.JSONException {
+        this.nativeAdConfig = NativeAdConfig.fromJson(getContext(), jsonString);
+    }
+
+    /**
+     * Load native ad configuration from JSON object
+     * @param jsonObject The JSON configuration object
+     */
+    public void setNativeAdConfigFromJson(org.json.JSONObject jsonObject) {
+        this.nativeAdConfig = NativeAdConfig.fromJson(getContext(), jsonObject);
+    }
+
     public void populateNativeAdView(Activity activity, ApNativeAd nativeAd){
         if(layoutLoading == null){
             Log.e(TAG, "populateNativeAdView error : layoutLoading not set"  );
             return;
         }
-        BBLAd.getInstance().populateNativeAdView(activity, nativeAd, layoutPlaceHolder, layoutLoading);
+        if (nativeAdConfig != null) {
+            BBLAd.getInstance().populateNativeAdViewWithConfig(activity, nativeAd, layoutPlaceHolder, layoutLoading, nativeAdConfig);
+        } else {
+            BBLAd.getInstance().populateNativeAdView(activity, nativeAd, layoutPlaceHolder, layoutLoading);
+        }
     }
 
     public void loadNativeAd(Activity activity, String idAd ) {
@@ -152,7 +192,11 @@ public class BBLNativeAdView extends RelativeLayout implements DefaultLifecycleO
             ((androidx.lifecycle.LifecycleOwner) activity).getLifecycle().addObserver(this);
         }
         
-        BBLAd.getInstance().loadNativeAd(activity, idAd, layoutCustomNativeAd, layoutPlaceHolder, layoutLoading, bblAdCallback);
+        if (nativeAdConfig != null) {
+            BBLAd.getInstance().loadNativeAdWithConfig(activity, idAd, layoutCustomNativeAd, layoutPlaceHolder, layoutLoading, bblAdCallback, nativeAdConfig);
+        } else {
+            BBLAd.getInstance().loadNativeAd(activity, idAd, layoutCustomNativeAd, layoutPlaceHolder, layoutLoading, bblAdCallback);
+        }
     }
 
     public void loadNativeAd(Activity activity, String idAd, int layoutCustomNativeAd, int idLayoutLoading) {
@@ -165,6 +209,50 @@ public class BBLNativeAdView extends RelativeLayout implements DefaultLifecycleO
         setLayoutLoading(idLayoutLoading);
         setLayoutCustomNativeAd(layoutCustomNativeAd);
         loadNativeAd(activity,idAd, miaAdCallback);
+    }
+
+    /**
+     * Load native ad with custom configuration
+     * @param activity
+     * @param idAd
+     * @param bblAdCallback
+     * @param nativeAdConfig
+     */
+    public void loadNativeAdWithConfig(Activity activity, String idAd, BBLAdCallback bblAdCallback, NativeAdConfig nativeAdConfig) {
+        if(layoutLoading == null){
+            setLayoutLoading(R.layout.loading_native_medium);
+        }
+        if (layoutCustomNativeAd == 0){
+            layoutCustomNativeAd = R.layout.custom_native_admod_medium_rate;
+            setLayoutCustomNativeAd(layoutCustomNativeAd);
+        }
+        
+        // Store current activity and ad info for lifecycle reload
+        this.currentActivity = activity;
+        this.currentAdId = idAd;
+        this.currentCallback = bblAdCallback;
+        
+        // Register lifecycle observer if isReloadLifeCycle is enabled
+        if (isReloadLifeCycle && activity instanceof androidx.lifecycle.LifecycleOwner) {
+            ((androidx.lifecycle.LifecycleOwner) activity).getLifecycle().addObserver(this);
+        }
+        
+        BBLAd.getInstance().loadNativeAdWithConfig(activity, idAd, layoutCustomNativeAd, layoutPlaceHolder, layoutLoading, bblAdCallback, nativeAdConfig);
+    }
+
+    /**
+     * Load native ad with custom configuration and custom layouts
+     * @param activity
+     * @param idAd
+     * @param layoutCustomNativeAd
+     * @param idLayoutLoading
+     * @param bblAdCallback
+     * @param nativeAdConfig
+     */
+    public void loadNativeAdWithConfig(Activity activity, String idAd, int layoutCustomNativeAd, int idLayoutLoading, BBLAdCallback bblAdCallback, NativeAdConfig nativeAdConfig) {
+        setLayoutLoading(idLayoutLoading);
+        setLayoutCustomNativeAd(layoutCustomNativeAd);
+        loadNativeAdWithConfig(activity, idAd, bblAdCallback, nativeAdConfig);
     }
 
     /**

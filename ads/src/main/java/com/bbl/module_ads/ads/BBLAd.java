@@ -17,23 +17,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adjust.sdk.Adjust;
-import com.adjust.sdk.AdjustAttribution;
 import com.adjust.sdk.AdjustConfig;
-import com.adjust.sdk.AdjustEventFailure;
-import com.adjust.sdk.AdjustEventSuccess;
 import com.adjust.sdk.AdjustSessionFailure;
 import com.adjust.sdk.AdjustSessionSuccess;
 import com.adjust.sdk.LogLevel;
-import com.adjust.sdk.OnAttributionChangedListener;
-import com.adjust.sdk.OnEventTrackingFailedListener;
-import com.adjust.sdk.OnEventTrackingSucceededListener;
 import com.adjust.sdk.OnSessionTrackingFailedListener;
 import com.adjust.sdk.OnSessionTrackingSucceededListener;
+import com.applovin.mediation.MaxAd;
+import com.applovin.mediation.MaxAdListener;
+import com.applovin.mediation.MaxError;
+import com.applovin.mediation.MaxReward;
+import com.applovin.mediation.ads.MaxInterstitialAd;
+import com.applovin.mediation.ads.MaxRewardedAd;
+import com.applovin.mediation.nativeAds.MaxNativeAdView;
+import com.applovin.mediation.nativeAds.adPlacer.MaxAdPlacer;
+import com.applovin.mediation.nativeAds.adPlacer.MaxRecyclerAdapter;
 import com.bbl.module_ads.R;
 import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.admob.AppOpenManager;
 import com.bbl.module_ads.ads.nativeAds.BBLAdAdapter;
 import com.bbl.module_ads.ads.nativeAds.BBLAdPlacer;
+import com.bbl.module_ads.ads.nativeAds.NativeAdConfig;
 import com.bbl.module_ads.ads.wrapper.ApAdError;
 import com.bbl.module_ads.ads.wrapper.ApAdValue;
 import com.bbl.module_ads.ads.wrapper.ApInterstitialAd;
@@ -53,15 +57,6 @@ import com.bbl.module_ads.funtion.RewardCallback;
 import com.bbl.module_ads.util.AppConstant;
 import com.bbl.module_ads.util.AppUtil;
 import com.bbl.module_ads.util.SharePreferenceUtils;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.MaxReward;
-import com.applovin.mediation.ads.MaxInterstitialAd;
-import com.applovin.mediation.ads.MaxRewardedAd;
-import com.applovin.mediation.nativeAds.MaxNativeAdView;
-import com.applovin.mediation.nativeAds.adPlacer.MaxAdPlacer;
-import com.applovin.mediation.nativeAds.adPlacer.MaxRecyclerAdapter;
 import com.facebook.FacebookSdk;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.ads.AdError;
@@ -112,27 +107,8 @@ public class BBLAd {
     }
 
     /**
-     * Set custom layout for ResumeLoadingDialog globally
-     * @param resumeLoadingDialogLayout The layout resource ID for ResumeLoadingDialog
-     */
-    public void setResumeLoadingDialogLayout(int resumeLoadingDialogLayout) {
-        if (adConfig != null) {
-            adConfig.setResumeLoadingDialogLayout(resumeLoadingDialogLayout);
-        }
-    }
-
-    /**
-     * Set custom layout for PrepareLoadingAdsDialog globally
-     * @param prepareLoadingAdsDialogLayout The layout resource ID for PrepareLoadingAdsDialog
-     */
-    public void setPrepareLoadingAdsDialogLayout(int prepareLoadingAdsDialogLayout) {
-        if (adConfig != null) {
-            adConfig.setPrepareLoadingAdsDialogLayout(prepareLoadingAdsDialogLayout);
-        }
-    }
-
-    /**
      * Get custom layout for ResumeLoadingDialog
+     *
      * @return The layout resource ID for ResumeLoadingDialog, -1 if not set
      */
     public int getResumeLoadingDialogLayout() {
@@ -143,7 +119,19 @@ public class BBLAd {
     }
 
     /**
+     * Set custom layout for ResumeLoadingDialog globally
+     *
+     * @param resumeLoadingDialogLayout The layout resource ID for ResumeLoadingDialog
+     */
+    public void setResumeLoadingDialogLayout(int resumeLoadingDialogLayout) {
+        if (adConfig != null) {
+            adConfig.setResumeLoadingDialogLayout(resumeLoadingDialogLayout);
+        }
+    }
+
+    /**
      * Get custom layout for PrepareLoadingAdsDialog
+     *
      * @return The layout resource ID for PrepareLoadingAdsDialog, -1 if not set
      */
     public int getPrepareLoadingAdsDialogLayout() {
@@ -151,6 +139,17 @@ public class BBLAd {
             return adConfig.getPrepareLoadingAdsDialogLayout();
         }
         return -1;
+    }
+
+    /**
+     * Set custom layout for PrepareLoadingAdsDialog globally
+     *
+     * @param prepareLoadingAdsDialogLayout The layout resource ID for PrepareLoadingAdsDialog
+     */
+    public void setPrepareLoadingAdsDialogLayout(int prepareLoadingAdsDialogLayout) {
+        if (adConfig != null) {
+            adConfig.setPrepareLoadingAdsDialogLayout(prepareLoadingAdsDialogLayout);
+        }
     }
 
     /**
@@ -280,38 +279,6 @@ public class BBLAd {
         adConfig.getApplication().registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
 
-    private static final class AdjustLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
-        @Override
-        public void onActivityResumed(Activity activity) {
-            Adjust.onResume();
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-            Adjust.onPause();
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-        }
-
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-        }
-    }
-
     public BBLAdConfig getAdConfig() {
         return adConfig;
     }
@@ -419,7 +386,6 @@ public class BBLAd {
     public void loadCollapsibleBannerFragment(final Activity mActivity, String id, final View rootView, String gravity, AdCallback adCallback) {
         Admob.getInstance().loadCollapsibleBannerFragment(mActivity, id, rootView, gravity, adCallback);
     }
-
 
     public void loadSplashInterstitialAds(final Context context, String id, long timeOut, long timeDelay, BBLAdCallback adListener) {
         loadSplashInterstitialAds(context, id, timeOut, timeDelay, true, adListener);
@@ -621,7 +587,6 @@ public class BBLAd {
                 });
         }
     }
-
 
     public void onShowSplash(AppCompatActivity activity, BBLAdCallback adListener) {
         switch (adConfig.getMediationProvider()) {
@@ -1380,6 +1345,81 @@ public class BBLAd {
     }
 
     /**
+     * Load native ad with custom configuration and auto populate ad to adPlaceHolder and hide containerShimmerLoading
+     *
+     * @param activity
+     * @param id
+     * @param layoutCustomNative
+     * @param adPlaceHolder
+     * @param containerShimmerLoading
+     * @param callback
+     * @param nativeAdConfig
+     */
+    public void loadNativeAdWithConfig(final Activity activity, String id,
+                                      int layoutCustomNative, FrameLayout adPlaceHolder, ShimmerFrameLayout
+                                              containerShimmerLoading, BBLAdCallback callback, com.bbl.module_ads.ads.nativeAds.NativeAdConfig nativeAdConfig) {
+        switch (adConfig.getMediationProvider()) {
+            case BBLAdConfig.PROVIDER_ADMOB:
+                Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
+                    @Override
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
+                        super.onUnifiedNativeAdLoaded(unifiedNativeAd);
+                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                        populateNativeAdViewWithConfig(activity, new ApNativeAd(layoutCustomNative, unifiedNativeAd), adPlaceHolder, containerShimmerLoading, nativeAdConfig);
+                    }
+
+                    @Override
+                    public void onAdImpression() {
+                        super.onAdImpression();
+                        callback.onAdImpression();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
+                        callback.onAdFailedToLoad(new ApAdError(i));
+                    }
+
+                    @Override
+                    public void onAdFailedToShow(@Nullable AdError adError) {
+                        super.onAdFailedToShow(adError);
+                        callback.onAdFailedToShow(new ApAdError(adError));
+                    }
+
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                        callback.onAdClicked();
+                    }
+                });
+                break;
+            case BBLAdConfig.PROVIDER_MAX:
+                AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
+                    @Override
+                    public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
+                        super.onUnifiedNativeAdLoaded(unifiedNativeAd);
+                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                        populateNativeAdViewWithConfig(activity, new ApNativeAd(layoutCustomNative, unifiedNativeAd), adPlaceHolder, containerShimmerLoading, nativeAdConfig);
+                        callback.onAdImpression();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@Nullable MaxError i) {
+                        super.onAdFailedToLoad(i);
+                        callback.onAdFailedToLoad(new ApAdError(i));
+                    }
+
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                        callback.onAdClicked();
+                    }
+                });
+                break;
+        }
+    }
+
+    /**
      * Result a ApNativeAd in onUnifiedNativeAdLoaded when native ad loaded
      *
      * @param activity
@@ -1387,6 +1427,73 @@ public class BBLAd {
      * @param layoutCustomNative
      * @param callback
      */
+    public void loadNativeAdResultCallback(final Activity activity, String id,
+                                           int layoutCustomNative, NativeAdConfig nativeAdConfig, BBLAdCallback callback) {
+        switch (adConfig.getMediationProvider()) {
+            case BBLAdConfig.PROVIDER_ADMOB:
+                Admob.getInstance().loadNativeWithConfig(activity, id, layoutCustomNative, nativeAdConfig, new AdCallback() {
+                    @Override
+                    public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
+                        super.onUnifiedNativeAdLoaded(unifiedNativeAd);
+                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        callback.onAdLoaded();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@Nullable LoadAdError i) {
+                        super.onAdFailedToLoad(i);
+                        callback.onAdFailedToLoad(new ApAdError(i));
+                    }
+
+                    @Override
+                    public void onAdFailedToShow(@Nullable AdError adError) {
+                        super.onAdFailedToShow(adError);
+                        callback.onAdFailedToShow(new ApAdError(adError));
+                    }
+
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                        callback.onAdClicked();
+                    }
+
+                    @Override
+                    public void onAdImpression() {
+                        super.onAdImpression();
+                        if (callback != null)
+                            callback.onAdImpression();
+                    }
+                });
+                break;
+            case BBLAdConfig.PROVIDER_MAX:
+                AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
+                    @Override
+                    public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
+                        super.onUnifiedNativeAdLoaded(unifiedNativeAd);
+                        callback.onNativeAdLoaded(new ApNativeAd(layoutCustomNative, unifiedNativeAd));
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@Nullable MaxError i) {
+                        super.onAdFailedToLoad(i);
+                        callback.onAdFailedToLoad(new ApAdError(i));
+                    }
+
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                        callback.onAdClicked();
+                    }
+                });
+                break;
+        }
+    }
+
     public void loadNativeAdResultCallback(final Activity activity, String id,
                                            int layoutCustomNative, BBLAdCallback callback) {
         switch (adConfig.getMediationProvider()) {
@@ -1485,6 +1592,43 @@ public class BBLAd {
         }
     }
 
+    /**
+     * Populate Unified Native Ad to View with custom configuration
+     *
+     * @param activity
+     * @param apNativeAd
+     * @param adPlaceHolder
+     * @param containerShimmerLoading
+     * @param nativeAdConfig
+     */
+    public void populateNativeAdViewWithConfig(Activity activity, ApNativeAd apNativeAd, FrameLayout
+            adPlaceHolder, ShimmerFrameLayout containerShimmerLoading, com.bbl.module_ads.ads.nativeAds.NativeAdConfig nativeAdConfig) {
+        if (apNativeAd.getAdmobNativeAd() == null && apNativeAd.getNativeView() == null) {
+            containerShimmerLoading.setVisibility(View.GONE);
+            Log.e(TAG, "populateNativeAdViewWithConfig failed : native is not loaded ");
+            return;
+        }
+        switch (adConfig.getMediationProvider()) {
+            case BBLAdConfig.PROVIDER_ADMOB:
+                @SuppressLint("InflateParams") NativeAdView adView = (NativeAdView) LayoutInflater.from(activity).inflate(apNativeAd.getLayoutCustomNative(), null);
+                containerShimmerLoading.stopShimmer();
+                containerShimmerLoading.setVisibility(View.GONE);
+                adPlaceHolder.setVisibility(View.VISIBLE);
+                Admob.getInstance().populateUnifiedNativeAdView(apNativeAd.getAdmobNativeAd(), adView, nativeAdConfig);
+                adPlaceHolder.removeAllViews();
+                adPlaceHolder.addView(adView);
+                break;
+            case BBLAdConfig.PROVIDER_MAX:
+                containerShimmerLoading.stopShimmer();
+                containerShimmerLoading.setVisibility(View.GONE);
+                adPlaceHolder.setVisibility(View.VISIBLE);
+                adPlaceHolder.removeAllViews();
+                if (apNativeAd.getNativeView().getParent() != null) {
+                    ((ViewGroup) apNativeAd.getNativeView().getParent()).removeAllViews();
+                }
+                adPlaceHolder.addView(apNativeAd.getNativeView());
+        }
+    }
 
     public ApRewardAd getRewardAd(Activity activity, String id) {
         ApRewardAd apRewardAd = new ApRewardAd();
@@ -1782,6 +1926,38 @@ public class BBLAd {
             default:
                 return new BBLAdAdapter(Admob.getInstance().getNativeFixedPositionAdapter(activity, id, layoutCustomNative, layoutAdPlaceHolder,
                         originalAdapter, listener, position));
+        }
+    }
+
+    private static final class AdjustLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+        @Override
+        public void onActivityResumed(Activity activity) {
+            Adjust.onResume();
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            Adjust.onPause();
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+        }
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
         }
     }
 }

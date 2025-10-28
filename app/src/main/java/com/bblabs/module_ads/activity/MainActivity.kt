@@ -157,11 +157,12 @@ class MainActivity : AppCompatActivity() {
             override fun onNativeAdLoaded(nativeAd: ApNativeAd) {
                 apNativeAd = nativeAd
                 Log.d(TAG, "BBLNativeAdView: status: ${apNativeAd?.status}")
-                BBLAd.getInstance().populateNativeAdView(
+                BBLAd.getInstance().populateNativeAdViewWithConfig(
                     this@MainActivity,
                     nativeAd,
                     findViewById(R.id.fl_adplaceholder),
-                    findViewById(R.id.shimmer_container_native)
+                    findViewById(R.id.shimmer_container_native),
+                    loadNativeConfigFromAssets("native_ad_config.json")
                 )
             }
             override fun onAdFailedToLoad(adError: ApAdError?) {

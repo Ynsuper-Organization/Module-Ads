@@ -1,5 +1,7 @@
 package com.bbl.module_ads.config;
 
+import com.adjust.sdk.AdjustAttribution;
+
 public class AdjustConfig {
 
     private boolean enableAdjust = false;
@@ -18,6 +20,7 @@ public class AdjustConfig {
      * eventNamePurchase push event to adjust when ad impression
      */
     private String eventAdImpression = "";
+    private com.bbl.module_ads.config.AdjustStateOrganicCallback adjustStateOrganicCallback;
 
     public AdjustConfig(boolean enableAdjust) {
         this.enableAdjust = enableAdjust;
@@ -58,5 +61,22 @@ public class AdjustConfig {
 
     public void setEventAdImpression(String eventAdImpression) {
         this.eventAdImpression = eventAdImpression;
+    }
+
+    public void setAdjustStateOrganic(AdjustStateOrganicCallback stateOrganic) {
+        this.adjustStateOrganicCallback = stateOrganic;
+
+    }
+
+    public void isOrganicUser(boolean isOrganic) {
+        if (adjustStateOrganicCallback != null) {
+            adjustStateOrganicCallback.isUserOrganic(isOrganic);
+        }
+    }
+
+    public void setAdjustAttribution(AdjustAttribution adjustAttribution) {
+        if (adjustStateOrganicCallback != null) {
+            adjustStateOrganicCallback.onAttributionChanged(adjustAttribution);
+        }
     }
 }

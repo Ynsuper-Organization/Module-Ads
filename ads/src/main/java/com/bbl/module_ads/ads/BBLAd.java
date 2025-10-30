@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustAttribution;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.AdjustSessionFailure;
 import com.adjust.sdk.AdjustSessionSuccess;
@@ -181,7 +182,9 @@ public class BBLAd {
             Log.i(TAG, "init adjust");
             BBLAdjust.enableAdjust = true;
             setupAdjust(adConfig.isVariantDev(), adConfig.getAdjustConfig().getAdjustToken());
+
         }
+
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().init(context, new AppLovinCallback() {
@@ -219,6 +222,16 @@ public class BBLAd {
 
     }
 
+    private void handleReturnStateOrganic(AdjustAttribution adjustAttribution) {
+        if (adjustAttribution != null && adConfig != null) {
+            adConfig.getAdjustConfig().setAdjustAttribution(adjustAttribution);
+            adConfig.getAdjustConfig().isOrganicUser(adjustAttribution.trackerName.equals("Organic")
+                    || adjustAttribution.network.contains("organic"));
+
+
+        }
+    }
+
     public int getMediationProvider() {
         return adConfig.getMediationProvider();
     }
@@ -241,8 +254,8 @@ public class BBLAd {
         config.setOnAttributionChangedListener(attribution -> {
             Log.d(TAG_ADJUST, "Attribution callback called!");
             Log.d(TAG_ADJUST, "Attribution: " + attribution.toString());
+            handleReturnStateOrganic(attribution);
         });
-
         // Set event success tracking delegate.
         config.setOnEventTrackingSucceededListener(eventSuccessResponseData -> {
             Log.d(TAG_ADJUST, "Event success callback called!");
@@ -1287,7 +1300,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1328,7 +1341,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1370,13 +1383,13 @@ public class BBLAd {
      * @param nativeAdConfig
      */
     public void loadNativeAdWithConfig(final Activity activity, String id,
-                                      int layoutCustomNative, FrameLayout adPlaceHolder, ShimmerFrameLayout
-                                              containerShimmerLoading, BBLAdCallback callback, com.bbl.module_ads.ads.nativeAds.NativeAdConfig nativeAdConfig) {
+                                       int layoutCustomNative, FrameLayout adPlaceHolder, ShimmerFrameLayout
+                                               containerShimmerLoading, BBLAdCallback callback, com.bbl.module_ads.ads.nativeAds.NativeAdConfig nativeAdConfig) {
         switch (adConfig.getMediationProvider()) {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1417,7 +1430,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1461,7 +1474,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(activity, id, new AdCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1508,7 +1521,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1543,7 +1556,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_ADMOB:
                 Admob.getInstance().loadNativeAd(((Context) activity), id, new AdCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(@NonNull NativeAd unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);
@@ -1584,7 +1597,7 @@ public class BBLAd {
             case BBLAdConfig.PROVIDER_MAX:
                 AppLovin.getInstance().loadNativeAd(activity, id, layoutCustomNative, new AppLovinCallback() {
                     private ApNativeAd nativeAdInstance;
-                    
+
                     @Override
                     public void onUnifiedNativeAdLoaded(MaxNativeAdView unifiedNativeAd) {
                         super.onUnifiedNativeAdLoaded(unifiedNativeAd);

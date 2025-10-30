@@ -1,13 +1,17 @@
 package com.bblabs.module_ads;
 
+import android.util.Log;
+
 import com.bbl.module_ads.admob.Admob;
 import com.bbl.module_ads.admob.AppOpenManager;
+
 import com.bbl.module_ads.ads.BBLAd;
 import com.bbl.module_ads.application.AdsMultiDexApplication;
 import com.bbl.module_ads.applovin.AppLovin;
 import com.bbl.module_ads.applovin.AppOpenMax;
 import com.bbl.module_ads.billing.AppPurchase;
 import com.bbl.module_ads.config.AdjustConfig;
+import com.bbl.module_ads.config.AdjustStateOrganicCallback;
 import com.bbl.module_ads.config.AppsflyerConfig;
 import com.bbl.module_ads.config.BBLAdConfig;
 import com.bblabs.module_ads.activity.MainActivity;
@@ -17,7 +21,7 @@ import com.bblvn.example_ads.BuildConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyApplication extends AdsMultiDexApplication {
+public class MyApplication extends AdsMultiDexApplication implements AdjustStateOrganicCallback {
     private static MyApplication context;
     private final String APPSFLYER_TOKEN = "";
     private final String ADJUST_TOKEN = "1z3pkubdmri8";
@@ -52,7 +56,7 @@ public class MyApplication extends AdsMultiDexApplication {
 
         AdjustConfig adjustConfig = new AdjustConfig(true, ADJUST_TOKEN);
         adjustConfig.setEventAdImpression(EVENT_AD_IMPRESSION_ADJUST);
-
+        adjustConfig.setAdjustStateOrganic(this);
         adjustConfig.setEventNamePurchase(EVENT_PURCHASE_ADJUST);
         bblAdConfig.setAdjustConfig(adjustConfig);
         bblAdConfig.setIdAdResume(BuildConfig.ad_appopen_resume);
@@ -84,4 +88,9 @@ public class MyApplication extends AdsMultiDexApplication {
         AppPurchase.getInstance().initBilling(getApplication(), listINAPId, listSubsId);
     }
 
+
+    @Override
+    public void isUserOrganic(Boolean isOrganic) {
+        Log.d("Ynsuper", "isUserOrganic: " + isOrganic);
+    }
 }

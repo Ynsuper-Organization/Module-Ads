@@ -12,8 +12,10 @@ import com.bbl.module_ads.util.SharePreferenceUtils;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.AdValue;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.tiktok.TikTokBusinessSdk;
-import com.tiktok.appevents.base.TTBaseEvent;
+//import com.tiktok.TikTokBusinessSdk;
+//import com.tiktok.appevents.base.TTBaseEvent;
+//import com.tiktok.TikTokBusinessSdk;
+//import com.tiktok.appevents.base.TTBaseEvent;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -132,15 +134,15 @@ public class BBLLogEventManager {
                 network, mediationProvider));
 
 
-        TTBaseEvent testInfo = TTBaseEvent.newBuilder("BBL_TikTok", context.getPackageName())
-        .addProperty("currency", "USD") //The ISO 4217 currency code
-                .addProperty("value", revenue / 1000000.0) // Value of the order or items sold
-                .addProperty("content_id", adUnitId) //Unique ID of the product or content
-                .addProperty("content_type", adType.name().toLowerCase()) //The type of content in the event
-                .addProperty("price", revenue / 1000000.0) //The price of the item
-                .addProperty("quantity", precision) //The number of items
-                .build();
-        TikTokBusinessSdk.trackTTEvent(testInfo);
+//        TTBaseEvent testInfo = TTBaseEvent.newBuilder("BBL_TikTok", context.getPackageName())
+//        .addProperty("currency", "USD") //The ISO 4217 currency code
+//                .addProperty("value", revenue / 1000000.0) // Value of the order or items sold
+//                .addProperty("content_id", adUnitId) //Unique ID of the product or content
+//                .addProperty("content_type", adType.name().toLowerCase()) //The type of content in the event
+//                .addProperty("price", revenue / 1000000.0) //The price of the item
+//                .addProperty("quantity", precision) //The number of items
+//                .build();
+//        TikTokBusinessSdk.trackTTEvent(testInfo);
 
     }
 

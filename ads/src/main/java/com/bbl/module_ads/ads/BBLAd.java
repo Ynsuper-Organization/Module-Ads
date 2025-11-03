@@ -69,7 +69,7 @@ import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd;
-import com.tiktok.TikTokBusinessSdk;
+//import com.tiktok.TikTokBusinessSdk;
 
 public class BBLAd {
     public static final String TAG_ADJUST = "BBLAdjust";
@@ -213,11 +213,11 @@ public class BBLAd {
         FacebookSdk.setClientToken(adConfig.getFacebookClientToken());
         FacebookSdk.sdkInitialize(context);
 
-        TikTokBusinessSdk.TTConfig ttConfig = new TikTokBusinessSdk.TTConfig(context)
-                .setAppId(context.getPackageName())
-                .setTTAppId(adConfig.getTiktokAppID());
-        TikTokBusinessSdk.initializeSdk(ttConfig);
-        TikTokBusinessSdk.startTrack();
+//        TikTokBusinessSdk.TTConfig ttConfig = new TikTokBusinessSdk.TTConfig(context)
+//                .setAppId(context.getPackageName())
+//                .setTTAppId(adConfig.getTiktokAppID());
+//        TikTokBusinessSdk.initializeSdk(ttConfig);
+//        TikTokBusinessSdk.startTrack();
 
 
     }

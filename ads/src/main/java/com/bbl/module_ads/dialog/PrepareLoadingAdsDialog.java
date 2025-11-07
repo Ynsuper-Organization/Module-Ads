@@ -11,6 +11,7 @@ import com.bbl.module_ads.ads.BBLAd;
 
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
 public class PrepareLoadingAdsDialog extends Dialog {
 
@@ -40,12 +41,12 @@ public class PrepareLoadingAdsDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(customLayoutId);
 
-        // Áp dụng hiệu ứng fade-in cho toàn bộ layout của dialog
-        Animation fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        View rootView = findViewById(R.id.dialog_root_view);
-        if (rootView != null) {
-            rootView.startAnimation(fadeIn);
-        }
+//        // Áp dụng hiệu ứng fade-in cho toàn bộ layout của dialog
+//        Animation fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+//        LinearLayout rootView = findViewById(R.id.dialog_root_view);
+//        if (rootView != null) {
+//            rootView.startAnimation(fadeIn);
+//        }
     }
 
     /**

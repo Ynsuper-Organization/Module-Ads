@@ -1,0 +1,18 @@
+{
+  "headlineTextSize": 18,
+  "bodyTextSize": 14,
+  "callToActionTextSize": 10,
+  "advertiserTextSize": 12,
+  "headlineTextColor": "#000000",
+  "bodyTextColor": "#666666",
+  "callToActionTextColor": "#FFFFFF",
+  "advertiserTextColor": "#999999",
+  "adViewBackgroundColor": "#FFFFFF",
+  "iconSize": 48,
+  "contentPadding": 16,
+  "mediaViewSize": 200,
+  "callToActionBackgroundColor": "#4285F4",
+  "callToActionCornerRadius": 8,
+  "callToActionHeight": 40
+}
+

@@ -51,7 +51,6 @@ public class MyApplication extends AdsMultiDexApplication implements AdjustState
     }
 
     private void initAds() {
-        BBLAd
         String environment = BuildConfig.env_dev ? BBLAdConfig.ENVIRONMENT_DEVELOP : BBLAdConfig.ENVIRONMENT_PRODUCTION;
         bblAdConfig = new BBLAdConfig(this, BBLAdConfig.PROVIDER_ADMOB, environment);
 
